@@ -1,0 +1,85 @@
+# .pre-commit-config.yaml
+repos:
+  # overall file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+        args:
+          - --allow-multiple-documents
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-byte-order-marker
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-xml
+      - id: debug-statements
+      - id: destroyed-symlinks
+      - id: detect-aws-credentials
+        args:
+          - --allow-missing-credentials
+      - id: detect-private-key
+        exclude: |
+          (?x)(
+              ^docs/|
+              ^README.md
+          )
+  # commit-message & author
+  # https://jorisroovers.com/gitlint/
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.19.1
+    hooks:
+      - id: gitlint
+        args:
+          - -cgeneral.verbosity=2
+          - -cgeneral.ignore=B6
+          - -cgeneral.ignore-merge-commits=true
+          - -cgeneral.regex-style-search=True
+          - -cgeneral.staged=true
+          - -ctitle-max-length.line-length=80
+          - '-ctitle-match-regex.regex=^(feat|fix|try|maintain)!?(\(.*\))?:.+|^Merge branch.*'
+          - --msg-filename
+  # Python code formatter (Black)
+  - repo: https://github.com/psf/black
+    rev: 25.1.0  # Update to the latest version
+    hooks:
+      - id: black
+        language_version: python3.12  # Match your Python version
+
+  # Linter (Flake8)
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.3.0
+    hooks:
+      - id: flake8
+        additional_dependencies: [ ]
+        args: [ "--max-line-length=100" ]  # Optional: Customize to match Black's line length
+
+  # Sort Python imports (isort)
+  - repo: https://github.com/pycqa/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+        args: [ "--profile", "black" ]
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: .venv/bin/pytest
+        language: script
+        types: [ python ]
+        pass_filenames: false
+        always_run: true
+
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: .venv/bin/pylint src/
+        language: script
+        types: [ python ]
+        pass_filenames: false
+        always_run: true

@@ -1,0 +1,50 @@
+include:
+  - component: ${FS_CI_COMPONENTS_GROUP}/release/create-tag-release@1
+    inputs:
+      stage: release
+      image_name: ${COMP_GPCI_IMAGE_NAME}
+      image_tag: ${COMP_GPCI_IMAGE_TAG}
+      image_registry: ${COMP_GPCI_IMAGE_REGISTRY}
+  - component: ${FS_CI_COMPONENTS_GROUP}/release/semver@1
+    inputs:
+      stage: release
+      image_name: ${COMP_SEMVER_IMAGE_NAME}
+      image_tag: ${COMP_SEMVER_IMAGE_TAG}
+      image_registry: ${COMP_SEMVER_IMAGE_REGISTRY}
+  - component: ${FS_CI_COMPONENTS_GROUP}/container/build-kaniko@1
+    inputs:
+      job_name: container-build-tag
+      stage: build
+      rules:
+        - if: $CI_COMMIT_TAG
+      image_name: ${COMP_KANIKO_IMAGE_NAME}
+      image_tag: ${COMP_KANIKO_IMAGE_TAG}
+      image_registry: ${COMP_KANIKO_IMAGE_REGISTRY}
+      registry_user: ${COMP_KANIKO_REGISTRY_USER}
+      registry_password: ${COMP_KANIKO_REGISTRY_PASSWORD}
+      container_image_name: ${COMP_KANIKO_CONTAINER_IMAGE_NAME}
+      container_image_tags: ["${CI_COMMIT_TAG}", "latest"]
+      dockerfile: Dockerfile
+      additional_arguments: --build-arg "APP_VERSION=${CI_COMMIT_TAG}" --build-arg "APP_COMMIT_SHA=${CI_COMMIT_SHORT_SHA}"
+  - component: ${FS_CI_COMPONENTS_GROUP}/container/build-kaniko@1
+    inputs:
+      job_name: container-build-task
+      stage: build
+      rules:
+        - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+      image_name: ${COMP_KANIKO_IMAGE_NAME}
+      image_tag: ${COMP_KANIKO_IMAGE_TAG}
+      image_registry: ${COMP_KANIKO_IMAGE_REGISTRY}
+      registry_user: ${COMP_KANIKO_REGISTRY_USER}
+      registry_password: ${COMP_KANIKO_REGISTRY_PASSWORD}
+      container_image_name: ${COMP_KANIKO_CONTAINER_IMAGE_NAME}
+      container_image_tags: ["${CI_COMMIT_SHORT_SHA}","${CI_COMMIT_BRANCH}"]
+      dockerfile: Dockerfile
+      additional_arguments: --build-arg "APP_VERSION=${CI_COMMIT_SHORT_SHA}" --build-arg "APP_COMMIT_SHA=${CI_COMMIT_SHORT_SHA}"
+default:
+  tags:
+    - $COMP_DEFAULT_RUNNER_TAG
+
+stages:
+  - release
+  - build

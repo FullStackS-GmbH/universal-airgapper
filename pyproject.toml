@@ -1,0 +1,38 @@
+[project]
+name = "universal-airgapper"
+version = "0.0.1"
+requires-python = ">=3.12"
+description = "A universal airgapper tool for syncing resources"
+authors = [
+    { name = "Daniel Drack", email = "daniel.drack@fullstacks.eu" }
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+keywords = ["airgap", "sync", "git", "image", "helm"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py312']
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint]
+max-line-length = 100
+disable = "C0114,W0718,W1203,R0913,C0301,W0640,R0801,R0917,R0914,R0912,W0511,R0903,E1101"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "--strict-markers"
+pythonpath = "src"
+testpaths = [
+    "tests"
+]

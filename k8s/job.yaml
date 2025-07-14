@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: airgapper-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: airgapper
+          image: universal-airgapper:1.0.0
+          args: [ "--credentials-folder", "/mnt/creds/" ,"--config" ,"/mnt/config/config.yaml" ]
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ "ALL" ]
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          volumeMounts:
+            - name: config-volume
+              mountPath: /mnt/config/config.yaml
+              subPath: config.yaml  # Mount the specific file from the ConfigMap
+            - name: secrets-git
+              mountPath: /mnt/creds/git.yaml
+              subPath: git.yaml  # Mount the specific file from the ConfigMap
+            - name: secrets-image
+              mountPath: /mnt/creds/image.yaml
+              subPath: image.yaml  # Mount the specific file from the ConfigMap
+            - name: secrets-helm
+              mountPath: /mnt/creds/helm.yaml
+              subPath: helm.yaml  # Mount the specific file from the ConfigMap
+      restartPolicy: Never
+      securityContext:
+         runAsUser: 100
+         runAsGroup: 101
+         fsGroup: 101
+      volumes:
+        - name: config
+          configMap:
+            name: airgapper-config
+        - name: secrets-git
+          secret:
+            secretName: airgapper-secrets-git
+        - name: secrets-image
+          secret:
+            secretName: airgapper-secrets-image
+        - name: secrets-helm
+          secret:
+            secretName: airgapper-secrets-helm

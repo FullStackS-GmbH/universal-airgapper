@@ -1,0 +1,54 @@
+spec:
+  inputs:
+    stage:
+      default: run
+    job-name:
+      default: "airgapper"
+    image_registry:
+      type: string
+      default: "registry.lab.cloudstacks.eu"
+      description: "registry of the image to use"
+    image_name:
+      type: string
+      default: "fullstacks-tools/universal-airgapper"
+      description: "name of the image"
+    image_tag:
+      type: string
+      default: "latest"
+      description: "tag of the image"
+    image_pull_policy:
+      type: string
+      default: "always"
+      description: "image pull policy"
+    config-folder:
+      description: "--config-folder parameter; path to folder, containing config files"
+      default: ${CI_PROJECT_DIR}
+    credentials-file:
+      description: "--credentials-file parameter; path to credentials file"
+      default: ${UNIVERSAL_AIRGAPPER_CREDS}
+    debug:
+      description: "enable debug mode"
+      default: ""
+      options: ['', '--debug']
+
+---
+
+$[[ inputs.job-name ]]:
+  stage: $[[ inputs.stage ]]
+  image:
+    name: "$[[ inputs.image_registry ]]/$[[ inputs.image_name ]]:$[[ inputs.image_tag ]]"
+    entrypoint: [""] # This allows overriding the image's entrypoint
+    pull_policy: $[[ inputs.image_pull_policy ]]
+  script:
+      - echo "========================================================"
+      - echo "================ Universal Airgapper [ $APP_VERSION ] ============"
+      - echo "================ Commit - $APP_COMMIT_SHA  ==================="
+      - echo "====================== CONFIG =========================="
+      - cat $[[ inputs.config-folder ]]/*.yaml
+      - echo "========================================================"
+      - |
+        python /home/airgapper/main.py \
+        --credentials-file $[[ inputs.credentials-file ]] \
+        --config-folder $[[ inputs.config-folder ]] $[[ inputs.debug ]]
+  rules:
+    - when: always # Modify as needed based on the rules of triggering the job

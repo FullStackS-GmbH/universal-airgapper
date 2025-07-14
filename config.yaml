@@ -1,0 +1,78 @@
+neuvector:
+  hostname: nv-api-ddrack-rke2.cloudstacks.eu
+  port: 443
+  verify_tls: false
+  threshold_critical: 0
+  threshold_high: 0
+  threshold_medium: 0
+  threshold_low: 0
+
+resources:
+  - type: docker
+    source: registry.lab.cloudstacks.eu/base-images/maven-graal
+    destination: registry.fullstacks.eu/ddrack/maven-graal
+    scan: false
+    tags:
+      - "v1.0.1"
+      - "v2.0.0"
+
+  - type: docker
+    source: ubuntu
+    destination: registry.lab.cloudstacks.eu/ddrack/ubuntu
+    scan: false
+    tags:
+      - "20.04"
+      - "22.04"
+      - "latest"
+
+  - type: docker
+    source: registry.fullstacks.eu/mklug/semantic-release
+    destination: registry.lab.cloudstacks.eu/ddrack/semantic-release
+    scan: false
+    tags:
+      - "v2.27.1"
+
+  - type: helm
+    source_registry: registry-1.docker.io
+    source_chart: bitnamicharts/mariadb
+    destination_registry: registry.fullstacks.eu
+    destination_repo: ddrack
+    versions:
+      - "20.2.1"
+      - "20.2.0"
+      - "20.1.1"
+
+  - type: helm
+    source_registry: registry.fullstacks.eu
+    source_chart: ddrack/mariadb
+    destination_registry: registry.lab.cloudstacks.eu
+    destination_repo: ddrack
+    versions:
+      - "20.2.1"
+      - "20.2.0"
+      - "20.1.1"
+
+  - type: helm
+    source_registry: neuvector.github.io/neuvector-helm
+    source_chart: core
+    destination_registry: registry.lab.cloudstacks.eu
+    destination_repo: ddrack/neuvector
+    versions:
+      - "2.7.9"
+      - "2.8.3"
+
+  - type: git
+    source_repo: git@github.com:cloud-native-austria/cna-website.git
+    destination_repo: git@gitlab.com:fullstacks-gmbh/fullstacks-lab/sandboxes/ddrack/airgapper-cna-website.git
+    push_mode: skip
+    refs:
+      - "main"
+      - "task/nix"
+
+  - type: git
+    source_repo: https://github.com/DrackThor/home-setup.git
+    destination_repo: https://gitlab.com/fullstacks-gmbh/fullstacks-lab/sandboxes/ddrack/airgapper-juice-shop.git
+    push_mode: skip
+    refs:
+      - "main"
+      - "v1.0.0"
