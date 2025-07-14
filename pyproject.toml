@@ -31,7 +31,7 @@ strict = true
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "--strict-markers"
+addopts = "--strict-markers --cov=src --cov-fail-under=35"
 pythonpath = "src"
 testpaths = [
     "tests"
