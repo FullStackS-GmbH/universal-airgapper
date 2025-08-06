@@ -1,35 +1,58 @@
-name: Docker Build & Push (from package.json)
+name: Release & Publish Docker Image
 
 on:
-  workflow_dispatch:  # You trigger this manually or from another workflow
+  push:
+    branches:
+      - main
 
 permissions:
-  contents: read
-  packages: write
+  contents: write     # For git tag + changelog commit
+  packages: write     # For pushing to GHCR
 
 jobs:
-  docker:
+  release-and-publish:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed to get tags for standard-version
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
+      - name: Install dependencies
+        run: |
+          npm install --save-dev standard-version
+          npm ci
+
+      - name: Configure Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version & create changelog
+        run: |
+          npx standard-version
+
+      - name: Push version commit & tag
+        run: |
+          git push --follow-tags origin main
+
+      - name: Extract version from package.json
+        id: version
+        run: |
+          version=$(jq -r .version package.json)
+          echo "version=$version" >> $GITHUB_OUTPUT
+
       - name: Normalize repository name (lowercase)
         id: repo
         run: |
           repo_lower=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           echo "repo=$repo_lower" >> $GITHUB_OUTPUT
-
-      - name: Read version from package.json
-        id: version
-        run: |
-          version=$(jq -r .version package.json)
-          echo "version=$version" >> $GITHUB_OUTPUT
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
