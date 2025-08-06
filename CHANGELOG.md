@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/FullStackS-GmbH/universal-airgapper/compare/v0.0.8...v0.0.9) (2025-08-06)
+
+
+### Bug Fixes
+
+* pipeline ([68cfd7f](https://github.com/FullStackS-GmbH/universal-airgapper/commit/68cfd7fe6fb0569eec65ce5a5186cbf6d63afaef))
+
 ### [0.0.8](https://github.com/FullStackS-GmbH/universal-airgapper/compare/v0.0.7...v0.0.8) (2025-08-06)
 
 
