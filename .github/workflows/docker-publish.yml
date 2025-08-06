@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     tags:
-      - 'v*.*.*'  # triggers only on semver tags like v1.0.0, v2.3.4, etc.
+      - 'v*'  # triggers only on semver tags like v1.0.0, v2.3.4, etc.
 
 permissions:
   contents: read
