@@ -1,0 +1,38 @@
+name: Tag Release from Conventional Commits
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write  # required to push a tag
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # needed for tags and commit history
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install standard-version
+        run: |
+          npm install --save-dev standard-version
+
+      - name: Bump version and create tag
+        run: |
+          npx standard-version
+
+      - name: Push tag and changelog
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git push --follow-tags origin main
