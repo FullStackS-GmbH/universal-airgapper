@@ -32,16 +32,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Normalize repository name
+        id: repo
+        run: |
+          repo_lower=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "repo=$repo_lower" >> $GITHUB_OUTPUT
+
       - name: Extract tag version
-        id: extract_version
+        id: version
         run: |
-          TAG=${GITHUB_REF#refs/tags/}
-          echo "version=${TAG#v}" >> $GITHUB_OUTPUT
+          echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
-      - name: Build Docker image
+      - name: Build image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}:${{ steps.extract_version.outputs.version }} .
+          docker build -t ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.version.outputs.version }} .
 
-      - name: Push Docker image
+      - name: Push image
         run: |
-          docker push ghcr.io/${{ github.repository }}:${{ steps.extract_version.outputs.version }}
+          docker push ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.version.outputs.version }}
+
