@@ -1,6 +1,6 @@
 {
   "name": "universal-airgapper",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "scripts": {
     "release": "standard-version"
   },
