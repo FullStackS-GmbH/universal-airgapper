@@ -51,7 +51,8 @@ jobs:
     name: ${{ inputs.job-name || 'airgapper' }}
     runs-on: ubuntu-latest
     container:
-      image: ${{ inputs.image_registry || 'registry.lab.cloudstacks.eu' }}/${{ inputs.image_name || 'fullstacks-tools/universal-airgapper' }}:${{ inputs.image_tag || 'latest' }}
+      image: adcrinis/universal-airgapper:0.1.10
+    #   image: ${{ inputs.image_registry || 'registry.lab.cloudstacks.eu' }}/${{ inputs.image_name || 'fullstacks-tools/universal-airgapper' }}:${{ inputs.image_tag || 'latest' }}
       options: --pull=${{ inputs.image_pull_policy || 'always' }}
       credentials:
         username: ${{ github.actor }}
