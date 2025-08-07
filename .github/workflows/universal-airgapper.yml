@@ -76,6 +76,7 @@ jobs:
 
       - name: Run Universal Airgapper
         run: |
+          ls -lah
           python /home/airgapper/main.py \
             --credentials-file "credentials.yaml" \
             --config-folder "${{ inputs.config-folder || github.workspace }}" ${{ inputs.debug }}
