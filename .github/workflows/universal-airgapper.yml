@@ -50,6 +50,9 @@ jobs:
     container:
       image: ${{ inputs.image_registry || 'registry.lab.cloudstacks.eu' }}/${{ inputs.image_name || 'fullstacks-tools/universal-airgapper' }}:${{ inputs.image_tag || 'latest' }}
       options: --pull=${{ inputs.image_pull_policy || 'always' }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
