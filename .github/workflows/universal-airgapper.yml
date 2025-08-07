@@ -54,9 +54,9 @@ jobs:
       image: adcrinis/universal-airgapper:0.1.10
     #   image: ${{ inputs.image_registry || 'registry.lab.cloudstacks.eu' }}/${{ inputs.image_name || 'fullstacks-tools/universal-airgapper' }}:${{ inputs.image_tag || 'latest' }}
       options: --pull=${{ inputs.image_pull_policy || 'always' }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GHCR_PAT }}
+    #   credentials:
+    #     username: ${{ github.actor }}
+    #     password: ${{ secrets.GHCR_PAT }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
