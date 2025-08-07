@@ -27,13 +27,13 @@ on:
         description: '--config-folder parameter; path to folder, containing config files'
         default: '${{ github.workspace }}'
         required: false
-      credentials-file:
-        description: '--credentials-file parameter; path to credentials file'
-        default: '${{ secrets.UNIVERSAL_AIRGAPPER_CREDS }}'
-        required: false
       debug:
         description: 'Enable debug mode'
         default: ''
+        required: false
+      credentials-secret-name:
+        description: 'Name of the secret containing the credentials'
+        default: 'UNIVERSAL_AIRGAPPER_CREDS'
         required: false
 
 jobs:
@@ -55,6 +55,9 @@ jobs:
           echo "====================== CONFIG =========================="
           cat ${{ github.event.inputs.config-folder || github.workspace }}/*.yaml || true
           echo "========================================================"
+
+      - name: Write credentials file
+        run: echo "${{ secrets[github.event.inputs.credentials-secret-name] }}" > credentials.yaml
 
       - name: Run Universal Airgapper
         run: |
