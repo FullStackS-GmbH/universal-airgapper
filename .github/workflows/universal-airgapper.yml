@@ -1,0 +1,63 @@
+name: Universal Airgapper
+
+on:
+  workflow_dispatch:
+    inputs:
+      job-name:
+        description: 'Job Name'
+        default: 'airgapper'
+        required: false
+      image_registry:
+        description: 'Registry of the image to use'
+        default: 'ghcr.io'
+        required: false
+      image_name:
+        description: 'Name of the image'
+        default: 'fullstacks-gmbh/universal-airgapper'
+        required: false
+      image_tag:
+        description: 'Tag of the image'
+        default: '0.0.10'
+        required: false
+      image_pull_policy:
+        description: 'Image pull policy'
+        default: 'always'
+        required: false
+      config-folder:
+        description: '--config-folder parameter; path to folder, containing config files'
+        default: '${{ github.workspace }}'
+        required: false
+      credentials-file:
+        description: '--credentials-file parameter; path to credentials file'
+        default: '${{ secrets.UNIVERSAL_AIRGAPPER_CREDS }}'
+        required: false
+      debug:
+        description: 'Enable debug mode'
+        default: ''
+        required: false
+
+jobs:
+  airgapper:
+    name: ${{ github.event.inputs.job-name || 'airgapper' }}
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ github.event.inputs.image_registry || 'registry.lab.cloudstacks.eu' }}/${{ github.event.inputs.image_name || 'fullstacks-tools/universal-airgapper' }}:${{ github.event.inputs.image_tag || 'latest' }}
+      options: --pull=${{ github.event.inputs.image_pull_policy || 'always' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show config files
+        run: |
+          echo "========================================================"
+          echo "================ Universal Airgapper [ $APP_VERSION ] ============"
+          echo "================ Commit - $APP_COMMIT_SHA  ==================="
+          echo "====================== CONFIG =========================="
+          cat ${{ github.event.inputs.config-folder || github.workspace }}/*.yaml || true
+          echo "========================================================"
+
+      - name: Run Universal Airgapper
+        run: |
+          python /home/airgapper/main.py \
+            --credentials-file "${{ github.event.inputs.credentials-file || secrets.UNIVERSAL_AIRGAPPER_CREDS }}" \
+            --config-folder "${{ github.event.inputs.config-folder || github.workspace }}" ${{ github.event.inputs.debug }}
