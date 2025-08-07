@@ -25,7 +25,6 @@ on:
         required: false
       config-folder:
         description: '--config-folder parameter; path to folder, containing config files'
-        default: '${{ github.workspace }}'
         required: false
       debug:
         description: 'Enable debug mode'
@@ -49,11 +48,13 @@ jobs:
 
       - name: Show config files
         run: |
+          CONFIG_FOLDER="${{ github.event.inputs.config-folder }}"
+          if [ -z "$CONFIG_FOLDER" ]; then CONFIG_FOLDER="${GITHUB_WORKSPACE}"; fi
           echo "========================================================"
           echo "================ Universal Airgapper [ $APP_VERSION ] ============"
           echo "================ Commit - $APP_COMMIT_SHA  ==================="
           echo "====================== CONFIG =========================="
-          cat ${{ github.event.inputs.config-folder || github.workspace }}/*.yaml || true
+          cat "$CONFIG_FOLDER"/*.yaml || true
           echo "========================================================"
 
       - name: Write credentials file
