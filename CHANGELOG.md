@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.18](https://github.com/FullStackS-GmbH/universal-airgapper/compare/v0.0.17...v0.0.18) (2025-08-07)
+
+
+### Bug Fixes
+
+* use adcrinis image for now ([d1a7f1f](https://github.com/FullStackS-GmbH/universal-airgapper/commit/d1a7f1f80264750f7ec49d2d5ced135a05205a3c))
+
 ### [0.0.17](https://github.com/FullStackS-GmbH/universal-airgapper/compare/v0.0.16...v0.0.17) (2025-08-07)
 
 ### [0.0.16](https://github.com/FullStackS-GmbH/universal-airgapper/compare/v0.0.15...v0.0.16) (2025-08-07)
