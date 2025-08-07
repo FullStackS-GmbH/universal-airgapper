@@ -52,7 +52,7 @@ jobs:
       options: --pull=${{ inputs.image_pull_policy || 'always' }}
       credentials:
         username: ${{ github.actor }}
-        password: ${{ secrets.github_token }}
+        password: ${{ secrets.GHCR_PAT }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
