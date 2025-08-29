@@ -40,7 +40,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           semantic-release --provider github
-          echo "version=$(semantic-release version --provider github)" >> $GITHUB_OUTPUT
+          version=$(semantic-release version --provider github)
+          if [ -z "$version" ]; then
+            echo "No version detected by semantic-release. Exiting."
+            exit 1
+          fi
+          echo "version=$version" >> $GITHUB_OUTPUT
+
+      - name: Debug semantic-release version
+        run: |
+          echo "Version: ${{ steps.semrel.outputs.version }}"
+          if [ -z "${{ steps.semrel.outputs.version }}" ]; then
+            echo "No version detected by semantic-release. Exiting."
+            exit 1
+          fi
 
       - name: Normalize repository name (lowercase)
         id: repo
