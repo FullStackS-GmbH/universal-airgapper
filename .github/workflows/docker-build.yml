@@ -1,0 +1,39 @@
+name: Build & Publish Docker Image
+
+on:
+  push:
+    tags:
+      - 'v*'   # Adjust this pattern if your tags are different
+
+permissions:
+  packages: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Normalize repository name (lowercase)
+        id: repo
+        run: |
+          repo_lower=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "repo=$repo_lower" >> $GITHUB_OUTPUT
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/${{ steps.repo.outputs.repo }}:${GITHUB_REF_NAME} .
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ steps.repo.outputs.repo }}:${GITHUB_REF_NAME}
