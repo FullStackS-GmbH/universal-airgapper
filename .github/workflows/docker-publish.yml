@@ -29,6 +29,13 @@ jobs:
           go install github.com/go-semantic-release/semantic-release/v2/cmd/semantic-release@latest
           echo "${HOME}/go/bin" >> $GITHUB_PATH
 
+      - name: Generate GitHub App token
+        id: app-token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Configure Git user
         run: |
           git config user.name "github-actions[bot]"
@@ -37,7 +44,7 @@ jobs:
       - name: Run semantic-release
         id: semrel
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           semantic-release --provider github
           version=$(semantic-release version --provider github)
