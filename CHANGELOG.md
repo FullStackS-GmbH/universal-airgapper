@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.21](https://github.com/FullStackS-GmbH/universal-airgapper/compare/v0.0.20...v0.0.21) (2025-08-29)
+
+
+### Features
+
+* added missing upstream files ([29fa8df](https://github.com/FullStackS-GmbH/universal-airgapper/commit/29fa8df26edffa039eb49a230e36b2ae0c1f4b7f))
+* added missing upstream files ([#7](https://github.com/FullStackS-GmbH/universal-airgapper/issues/7)) ([ff44bf1](https://github.com/FullStackS-GmbH/universal-airgapper/commit/ff44bf1d188fc9b8704a1dc034e259998077347d))
+
 ### [0.0.20](https://github.com/FullStackS-GmbH/universal-airgapper/compare/v0.0.19...v0.0.20) (2025-08-22)
 
 
