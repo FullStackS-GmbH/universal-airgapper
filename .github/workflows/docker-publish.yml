@@ -46,7 +46,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          semantic-release --provider github
           version=$(semantic-release version --provider github)
           if [ -z "$version" ]; then
             echo "No version detected by semantic-release. Exiting."
