@@ -17,36 +17,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Needed to get tags for standard-version
+          fetch-depth: 0  # Needed to get tags for semantic-release
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
         with:
-          node-version: '20'
+          go-version: '1.22'
 
-      - name: Install dependencies
+      - name: Install go-semantic-release
         run: |
-          npm install --save-dev standard-version
-          npm ci
+          go install github.com/go-semantic-release/semantic-release/v2/cmd/semantic-release@latest
+          echo "${HOME}/go/bin" >> $GITHUB_PATH
 
       - name: Configure Git user
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Bump version & create changelog
+      - name: Run semantic-release
+        id: semrel
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx standard-version
-
-      - name: Push version commit & tag
-        run: |
-          git push --follow-tags origin main
-
-      - name: Extract version from package.json
-        id: version
-        run: |
-          version=$(jq -r .version package.json)
-          echo "version=$version" >> $GITHUB_OUTPUT
+          semantic-release --provider github
+          echo "version=$(semantic-release version --provider github)" >> $GITHUB_OUTPUT
 
       - name: Normalize repository name (lowercase)
         id: repo
@@ -63,8 +57,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.version.outputs.version }} .
+          docker build -t ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.semrel.outputs.version }} .
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.version.outputs.version }}
+          docker push ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.semrel.outputs.version }}
