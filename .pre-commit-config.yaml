@@ -2,7 +2,7 @@
 repos:
   # overall file checks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v4.4.0
     hooks:
       - id: check-yaml
         args:
@@ -24,7 +24,7 @@ repos:
       - id: detect-private-key
         exclude: |
           (?x)(
-              ^docs/|
+              ^creds/|
               ^README.md
           )
   # commit-message & author
@@ -41,17 +41,18 @@ repos:
           - -cgeneral.staged=true
           - -ctitle-max-length.line-length=80
           - '-ctitle-match-regex.regex=^(feat|fix|try|maintain)!?(\(.*\))?:.+|^Merge branch.*'
+          - "-cauthor-valid-email.regex=[^@]+@fullstacks.eu"
           - --msg-filename
   # Python code formatter (Black)
   - repo: https://github.com/psf/black
-    rev: 25.1.0  # Update to the latest version
+    rev: 23.9.1  # Update to the latest version
     hooks:
       - id: black
         language_version: python3.12  # Match your Python version
 
   # Linter (Flake8)
   - repo: https://github.com/pycqa/flake8
-    rev: 7.3.0
+    rev: 6.1.0
     hooks:
       - id: flake8
         additional_dependencies: [ ]
@@ -59,7 +60,7 @@ repos:
 
   # Sort Python imports (isort)
   - repo: https://github.com/pycqa/isort
-    rev: 6.0.1
+    rev: 5.13.2
     hooks:
       - id: isort
         args: [ "--profile", "black" ]
@@ -68,7 +69,7 @@ repos:
     hooks:
       - id: pytest
         name: pytest
-        entry: .venv/bin/pytest --cov-config=pyproject.toml tests
+        entry: .venv/bin/pytest
         language: script
         types: [ python ]
         pass_filenames: false

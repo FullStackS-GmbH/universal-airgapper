@@ -1,7 +1,6 @@
-from typing import Literal
+from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
-from typing_extensions import Optional  # pylint: disable=E0611
 
 
 class ConfigImage(BaseModel):

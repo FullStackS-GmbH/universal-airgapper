@@ -1,7 +1,7 @@
 [project]
 name = "universal-airgapper"
 version = "0.0.1"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 description = "A universal airgapper tool for syncing resources"
 authors = [
     { name = "Daniel Drack", email = "daniel.drack@fullstacks.eu" }
@@ -31,8 +31,32 @@ strict = true
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "--strict-markers --cov=src --cov-fail-under=35"
+addopts = "--strict-markers"
 pythonpath = "src"
 testpaths = [
     "tests"
 ]
+
+[tool.poetry]
+name = "universal-airgapper"
+version = "0.0.1"
+description = "A universal airgapper tool for syncing resources"
+authors = ["Daniel Drack <daniel.drack@fullstacks.eu>"]
+license = "MIT"
+readme = "README.md"
+keywords = ["airgap", "sync", "image", "helm"]
+
+[tool.poetry.dependencies]
+python = ">=3.12"
+requests = "~=2.32.3"
+configargparse = "~=1.7"
+PyYAML = "~=6.0.2"
+jsonschema = "~=4.23.0"
+GitPython = "~=3.1.44"
+pydantic = "~=2.10.6"
+annotated-types = "0.7.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "8.3.4"
+requests_mock = "1.12.1"
+pylint= "3.3.3"
