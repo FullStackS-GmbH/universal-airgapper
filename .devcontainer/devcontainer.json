@@ -1,0 +1,19 @@
+{
+  "name": "My Nix Flake Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/nix:1": {
+      "extraNixConfig": "experimental-features = nix-command flakes"
+    },
+    "ghcr.io/devcontainers-extra/features/direnv-asdf:2": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "arrterian.nix-env-selector"
+      ]
+    }
+  },
+  "postCreateCommand": "direnv allow && nix develop --accept-flake-config && echo 'Nix development environment is ready!'",
+  "remoteUser": "vscode"
+}

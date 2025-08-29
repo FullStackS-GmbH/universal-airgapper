@@ -200,7 +200,8 @@ def _authenticate_with_registry(
     full_image_name = registry + "/" + image_name
     token = get_registry_token(full_image_name, username, password)
     if token == "":
-        return headers  # empty token means fetch was ok without auth so return empty header
+        # empty token means, fetchin was successfull without auth. so return empty header
+        return headers
     headers["Authorization"] = f"Bearer {token}"
     return headers
 

@@ -77,22 +77,35 @@ class Creds:
 
     def write_docker_config(self, registry, username, password, config_path="/tmp/config.json"):
         """
-        Writes or updates Docker configuration file with registry authentication details.
+        Create or update a Docker `config.json` file with authentication credentials.
 
-        This method is used to add or update authentication credentials for a specific
-        Docker registry in a Docker configuration file. The configuration file is written
-        to the specified location on disk, and the environment is updated to use it.
+        This method ensures the directory for the Docker config exists, sets the
+        `DOCKER_CONFIG` environment variable to point to that directory, and writes
+        (or updates) the provided registry credentials in the JSON config file.
 
         Args:
-            registry (str): The URL or identifier for the Docker registry.
-            username (str): The username for the Docker registry authentication.
-            password (str): The password for the Docker registry authentication.
-            config_path (str, optional): The file path where the Docker configuration
-                file will be stored. Defaults to "/tmp/config.json".
+            registry (str): The Docker registry URL or hostname (e.g., "index.docker.io").
+            username (str): The username for authenticating to the registry.
+            password (str): The password or token for authenticating to the registry.
+            config_path (str, optional): Full path to the Docker config.json file.
+                Defaults to "/tmp/config.json".
+
+        Behavior:
+            - If the directory for `config_path` does not exist, it will be created.
+            - If the config file already exists, it will be loaded and updated.
+            - The `auths` section of the config will be updated (or created if missing).
+            - The username/password pair will be base64 encoded and stored under the
+              given registry entry.
+            - The updated config will be written back to disk in JSON format.
+
+        Side Effects:
+            - Modifies or creates a Docker config JSON file at `config_path`.
+            - Sets the environment variable `DOCKER_CONFIG` to the config directory.
+            - Prints a message indicating the registry credentials were written.
 
         Raises:
-            None
-
+            json.JSONDecodeError: If an existing config file cannot be parsed as JSON.
+            OSError: If the config file cannot be written to disk.
         """
         # Ensure the directory for the config path exists
         os.makedirs(os.path.dirname(config_path), exist_ok=True)
