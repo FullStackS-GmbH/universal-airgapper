@@ -3,7 +3,6 @@ import os
 import re
 import shutil
 from pathlib import Path
-from typing import List
 
 from git import GitCommandError, Repo
 
@@ -17,9 +16,8 @@ def get_all_tags_remote(
     username: str = None,
     password: str = None,
     ssh_key_path: str = None,
-) -> List[str]:
-    """
-    Retrieves all tags from a remote Git repository.
+) -> list[str]:
+    """Retrieves all tags from a remote Git repository.
 
     This function interacts with a remote Git repository to fetch all available tags by
     cloning the repository into a temporary directory. It supports both HTTPS and SSH
@@ -83,13 +81,13 @@ def get_all_tags_remote(
         # Fetch the tags from the repository
         tags = [tag.name for tag in repo.tags]
 
-        logging.debug(f"found tags: {str(tags)}")
+        logging.debug(f"found tags: {tags!s}")
         return tags
 
     except GitCommandError as e:
-        logging.error(f"Git error: {e}")
+        logging.exception(f"Git error: {e}")
     except Exception as e:
-        logging.error(f"An error occurred: {e}")
+        logging.exception(f"An error occurred: {e}")
     finally:
         # Clean up the temporary directory
         logging.debug(f"cleaning up temporary directory: {target_path}")
@@ -101,8 +99,7 @@ def get_all_tags_remote(
 
 
 def pattern_is_regex(pattern: str) -> bool:
-    """
-    Determines if a string pattern is a regular expression.
+    """Determines if a string pattern is a regular expression.
 
     This function inspects the given string pattern to check if it contains
     any indicators that commonly denote a regular expression. It specifically
@@ -122,9 +119,8 @@ def pattern_is_regex(pattern: str) -> bool:
     return False
 
 
-def get_matching_refs(pattern: str, git_repo: GitRepo, creds: Creds) -> List[str]:
-    """
-    Gets all matching references in a remote Git repository based on a provided pattern.
+def get_matching_refs(pattern: str, git_repo: GitRepo, creds: Creds) -> list[str]:
+    """Gets all matching references in a remote Git repository based on a provided pattern.
 
     This function connects to a remote Git repository using provided credentials, retrieves
     all the references (e.g., tags) from the repository, and matches them against a supplied
@@ -154,13 +150,13 @@ def get_matching_refs(pattern: str, git_repo: GitRepo, creds: Creds) -> List[str
         target_path="./tmp/sync_tmp",
     )
 
-    logging.info(f"found refs: {str(all_refs)}")
+    logging.info(f"found refs: {all_refs!s}")
     for ref in all_refs:
         try:
             if re.match(pattern, ref):
                 matching_refs.append(ref)
                 logging.info(f"matched ref [{pattern}]: {ref}")
         except Exception as e:
-            logging.error(f"Error matching pattern: {e}")
-    logging.info(f"pattern matched refs: {str(matching_refs)}")
+            logging.exception(f"Error matching pattern: {e}")
+    logging.info(f"pattern matched refs: {matching_refs!s}")
     return matching_refs

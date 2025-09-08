@@ -26,8 +26,7 @@ class ScannerSnyk(Scanner):
         registry_username: str,
         registry_password: str,
     ) -> ScannerResult:
-        """
-        Scans a container image using Snyk to identify security vulnerabilities.
+        """Scans a container image using Snyk to identify security vulnerabilities.
 
         This method interacts with the Snyk CLI to perform a security scan on a
         specified container image. The scan results are returned as a
@@ -79,5 +78,5 @@ class ScannerSnyk(Scanner):
             sarif = json.loads(result.stdout)
             return self.sarif_2_scanner_result(sarif)
         except Exception as e:
-            logging.error(str(2))
-            return ScannerResult(ok=False, msg=f"snyk error: {str(e)}")
+            logging.exception(str(2))
+            return ScannerResult(ok=False, msg=f"snyk error: {e!s}")

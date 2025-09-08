@@ -29,8 +29,7 @@ class ScannerCnspec(Scanner):
         registry_username: str,
         registry_password: str,
     ) -> ScannerResult:
-        """
-        Scans a container image for vulnerabilities using the `cnspec` tool and
+        """Scans a container image for vulnerabilities using the `cnspec` tool and
         returns a scanning result in the form of a `ScannerResult` object.
 
         The method authenticates using environment variables for the `cnspec` tool
@@ -83,5 +82,5 @@ class ScannerCnspec(Scanner):
             json_result = json.loads(result.stdout)
             return self.cnspec_2_scanner_result(json_result)
         except Exception as e:
-            logging.error(str(2))
-            return ScannerResult(ok=False, msg=f"cnspec error: {str(e)}")
+            logging.exception(str(2))
+            return ScannerResult(ok=False, msg=f"cnspec error: {e!s}")

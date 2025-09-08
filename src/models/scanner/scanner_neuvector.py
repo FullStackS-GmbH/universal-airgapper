@@ -12,8 +12,7 @@ from models.scanner.scanner_result import ScannerResult
 
 
 class ScannerNeuVector(Scanner):
-    """
-    Provides functionalities to interact with the NeuVector scanning API for
+    """Provides functionalities to interact with the NeuVector scanning API for
     conducting image vulnerability scans and analyzing scan results.
 
     The class serves as an interface for integrating with the NeuVector API,
@@ -36,8 +35,7 @@ class ScannerNeuVector(Scanner):
         self.endpoint = f"{config.hostname}:{config.port}"
 
     def validate_connection(self) -> bool:
-        """
-        Validates the connection to a configured endpoint.
+        """Validates the connection to a configured endpoint.
 
         This method sends a DELETE request to the endpoint specified in the
         `self.endpoint` property to validate its availability and configuration.
@@ -65,8 +63,7 @@ class ScannerNeuVector(Scanner):
         return True
 
     def invalidate_nv_token(self) -> bool:
-        """
-        Invalidates the currently active NV token from the authentication service.
+        """Invalidates the currently active NV token from the authentication service.
 
         This function sends a DELETE request to the authentication endpoint to revoke
         the active token. It utilizes the token stored in the instance and ensures that
@@ -90,8 +87,7 @@ class ScannerNeuVector(Scanner):
         return True
 
     def fetch_nv_token(self) -> bool:
-        """
-        Fetches a new API token from the endpoint using provided credentials.
+        """Fetches a new API token from the endpoint using provided credentials.
 
         This method sends a POST request to the authentication endpoint with the
         supplied username and password to obtain a new API token. The token is
@@ -134,8 +130,7 @@ class ScannerNeuVector(Scanner):
         registry_username: str,
         registry_password: str,
     ) -> ScannerResult:
-        """
-        Scans a container image against a configured scanner and returns the results.
+        """Scans a container image against a configured scanner and returns the results.
 
         This method performs the scanning of a container image for vulnerabilities
         or other issues by interacting with the scanner API. It uses the provided

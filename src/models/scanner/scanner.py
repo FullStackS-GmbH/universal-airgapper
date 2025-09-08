@@ -5,8 +5,7 @@ from models.scanner.scanner_result import ScannerResult
 
 
 class Scanner:
-    """
-    Represents a scanner for analyzing container images.
+    """Represents a scanner for analyzing container images.
 
     The Scanner class provides functionality to scan container images in order
     to perform analysis. It integrates with credentials and configuration objects
@@ -22,11 +21,10 @@ class Scanner:
     def scan_image(
         self, image: Image, tag: str, registry_username: str, registry_password: str
     ) -> ScannerResult:
-        """interface"""
+        """Interface."""
 
     def _result_is_okay(self, result: ScannerResult) -> (bool, str):
-        """
-        Determines if a given scanner result meets configured thresholds.
+        """Determines if a given scanner result meets configured thresholds.
 
         This method checks the low, medium, high, and critical issue counts in the scanner result
         against the respective configured thresholds. If any of the thresholds are exceeded, it
@@ -75,8 +73,7 @@ class Scanner:
         return (True, "result fine")
 
     def sarif_2_scanner_result(self, report: dict) -> ScannerResult:
-        """
-        Converts a SARIF formatted report into a ScannerResult object.
+        """Converts a SARIF formatted report into a ScannerResult object.
 
         This method takes a report in SARIF format and processes it to count
         the number of issues at different severity levels: critical, medium,
@@ -113,8 +110,7 @@ class Scanner:
         return result
 
     def cnspec_2_scanner_result(self, report: dict) -> ScannerResult:
-        """
-        Converts a cnspec JSON formatted report to a ScannerResult object.
+        """Converts a cnspec JSON formatted report to a ScannerResult object.
 
         This function processes a cnspec JSON formatted report and converts its
         data into a `ScannerResult` object. It classifies vulnerabilities based
@@ -151,8 +147,7 @@ class Scanner:
         return result
 
     def neuvector_2_scanner_result(self, report: dict) -> ScannerResult:
-        """
-        Converts a NeuVector vulnerability report into a standardized ScannerResult
+        """Converts a NeuVector vulnerability report into a standardized ScannerResult
         object. This function processes the NeuVector report to calculate the number
         of vulnerabilities categorized by severity levels (Critical, High, Medium,
         Low, and Unknown).

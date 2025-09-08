@@ -47,6 +47,6 @@
 #
 #
 # def test_get_docker_hub_token_raises_requests_exception(requests_mock):
-#     requests_mock.get("https://auth.docker.io/token", exc=requests.exceptions.RequestException)
+#     requests_mock.get("https://auth.docker.io/token", exc=requests.exceptions.RequestException)  # noqa: E501
 #     with pytest.raises(requests.exceptions.RequestException):
 #         get_registry_token("invalid/image")
