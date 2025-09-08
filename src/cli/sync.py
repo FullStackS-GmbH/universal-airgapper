@@ -50,7 +50,8 @@ def sync(creds_file: CredsFile, config_file: ConfigFile) -> RC:
     scanners = Scanners([])
     for scanner in config_file.scanners:
         scanners.add_scanner(
-            scanner, creds.get_scanner_creds(name=scanner.name, scanner_type=scanner.type)
+            scanner,
+            creds.get_scanner_creds(name=scanner.name, scanner_type=scanner.type),
         )
 
     for image in sync_resources.images:

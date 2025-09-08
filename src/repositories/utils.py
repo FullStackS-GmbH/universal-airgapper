@@ -58,7 +58,9 @@ def get_all_tags_remote(
             url_parts = repo_url.split("://")
             repo_url = f"{url_parts[0]}://{username}:{password}@{url_parts[1]}"
         elif username or password:
-            logging.error("Both username and password are required for HTTPS authentication.")
+            logging.error(
+                "Both username and password are required for HTTPS authentication."
+            )
             return []
 
         # Clone the repository into the temporary directory (shallow clone --tags only)
@@ -66,7 +68,12 @@ def get_all_tags_remote(
             repo_url,
             target_path,
             depth=1,
-            multi_options=["--single-branch", "--no-checkout", "--filter=blob:none", "--no-tags"],
+            multi_options=[
+                "--single-branch",
+                "--no-checkout",
+                "--filter=blob:none",
+                "--no-tags",
+            ],
         )
 
         # Explicitly fetch tags after clone

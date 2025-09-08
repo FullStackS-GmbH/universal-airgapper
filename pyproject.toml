@@ -1,33 +1,101 @@
 [project]
 name = "universal-airgapper"
 version = "0.0.1"
-requires-python = ">=3.10"
 description = "A universal airgapper tool for syncing resources"
-authors = [
-    { name = "Daniel Drack", email = "daniel.drack@fullstacks.eu" }
-]
-license = { file = "LICENSE" }
+authors = [{ name = "Daniel Drack", email = "daniel.drack@fullstacks.eu" }]
+requires-python = ">=3.10"
 readme = "README.md"
-keywords = ["airgap", "sync", "git", "image", "helm"]
+license = { file = "LICENSE" }
+keywords = [
+    "airgap",
+    "sync",
+    "git",
+    "image",
+    "helm",
+]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Operating System :: OS Independent"
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "requests~=2.32.3",
+    "configargparse~=1.7",
+    "PyYAML~=6.0.2",
+    "jsonschema~=4.23.0",
+    "GitPython~=3.1.44",
+    "pydantic~=2.10.6",
+    "annotated-types==0.7.0",
 ]
 
-[tool.black]
-line-length = 100
-target-version = ['py312']
+[dependency-groups]
+dev = [
+    "pytest==8.3.4",
+    "requests_mock==1.12.1",
+    "pylint==3.3.3",
+    "ruff>=0.12.12",
+]
 
-[tool.isort]
-profile = "black"
+[tool.ruff]
+line-length = 88
 
-[tool.pylint]
-max-line-length = 100
-disable = "C0114,W0718,W1203,R0913,C0301,W0640,R0801,R0917,R0914,R0912,W0511,R0903,E1101"
+[tool.ruff.lint]
+select = [
+    "B",    # bugbear
+    "C",    #
+    "D",    # pydocstyle
+    "E",    # pycodestyle error
+    "F",    # pyflakes
+    "N",    # naming
+    "S",    # bandit
+    "C90",  # maccabe
+    "PL",   # pylint
+    "I",    # isort
+    "TRY",  # exception handling
+    "RUF",  # ruff specific
+    "UP",    # pyupgrade
+]
+exclude = [
+    ".git",
+    ".venv",
+    ".vscode"
+]
+ignore = [
+    "D100", # Missing docstring in public module
+    "D101", # Missing docstring in public class
+    "D103", # Missing docstring in public function
+    "D107", # Missing docstring in `__init__`
+    "D205", # 1 blank line required between summary line and description
+]
+
+[tool.ruff.lint.isort]
+known-third-party = ["pytest"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pep8-naming]
+classmethod-decorators = []
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/**/*.py" = [
+    # at least this three should be fine in tests:
+    "S101", # asserts allowed in tests...
+    "ARG", # Unused function args -> fixtures nevertheless are functionally relevant...
+    "FBT", # Don't care about booleans as positional arguments in tests, e.g. via @pytest.mark.parametrize()
+    # The below are debateable
+    "PLR2004", # Magic value used in comparison, ...
+    "S311", # Standard pseudo-random generators are not suitable for cryptographic purposes
+    "S105", # Pseudo token
+    "S106", # Pseudo passwords
+]
 
 [tool.mypy]
 python_version = "3.12"
 strict = true
+
 
 [tool.pytest.ini_options]
 minversion = "7.0"
@@ -36,27 +104,3 @@ pythonpath = "src"
 testpaths = [
     "tests"
 ]
-
-[tool.poetry]
-name = "universal-airgapper"
-version = "0.0.1"
-description = "A universal airgapper tool for syncing resources"
-authors = ["Daniel Drack <daniel.drack@fullstacks.eu>"]
-license = "MIT"
-readme = "README.md"
-keywords = ["airgap", "sync", "image", "helm"]
-
-[tool.poetry.dependencies]
-python = ">=3.12"
-requests = "~=2.32.3"
-configargparse = "~=1.7"
-PyYAML = "~=6.0.2"
-jsonschema = "~=4.23.0"
-GitPython = "~=3.1.44"
-pydantic = "~=2.10.6"
-annotated-types = "0.7.0"
-
-[tool.poetry.dev-dependencies]
-pytest = "8.3.4"
-requests_mock = "1.12.1"
-pylint= "3.3.3"

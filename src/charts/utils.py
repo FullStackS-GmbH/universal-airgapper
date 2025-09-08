@@ -147,7 +147,9 @@ def get_auth_headers(creds: Creds, registry: str) -> dict:
 
     headers = {}
 
-    token = get_registry_token(registry, registry_creds.username, registry_creds.password)
+    token = get_registry_token(
+        registry, registry_creds.username, registry_creds.password
+    )
     headers["Authorization"] = f"Bearer {token}"
     return headers
 
@@ -196,9 +198,7 @@ def oci_chart_exists(
     )
 
     # Construct the URL to check for the chart manifest
-    manifest_url = (
-        f"{repo_url.rstrip('/')}/v2/{repo_path}{chart.chart_name}/manifests/{chart.version}"
-    )
+    manifest_url = f"{repo_url.rstrip('/')}/v2/{repo_path}{chart.chart_name}/manifests/{chart.version}"
 
     try:
         # Make a GET request to check if the manifest exists

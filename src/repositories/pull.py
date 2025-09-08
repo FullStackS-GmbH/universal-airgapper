@@ -68,7 +68,9 @@ def clone_repo_ref(
                 if username == "AzureReposAuthnSucks":
                     git_options.append(f"--config-env=http.extraheader={password}")
                 else:
-                    logging.debug(f"using username [{username}] and password for HTTPS auth")
+                    logging.debug(
+                        f"using username [{username}] and password for HTTPS auth"
+                    )
                     # Use Git credential environment variable for authentication
                     url_parts = repo_url.split("://")
                     repo_url = f"{url_parts[0]}://{username}:{password}@{url_parts[1]}"
@@ -79,7 +81,11 @@ def clone_repo_ref(
 
         # Clone the repository
         repo = git.Repo.clone_from(
-            repo_url, target_path, branch=ref, single_branch=True, multi_options=git_options
+            repo_url,
+            target_path,
+            branch=ref,
+            single_branch=True,
+            multi_options=git_options,
         )
 
         return RC(ok=True, entity=repo)

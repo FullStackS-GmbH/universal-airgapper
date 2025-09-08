@@ -53,7 +53,9 @@ def sync_repo(repo: GitRepo, creds: Creds) -> RC:
 
         for ref in refs:
             if ref in all_refs:
-                logging.info(f"skipping ref - already processed: {repo.source_repo}:{ref}")
+                logging.info(
+                    f"skipping ref - already processed: {repo.source_repo}:{ref}"
+                )
             else:
                 logging.info(f"working on ref: {ref}")
                 all_refs.append(ref)

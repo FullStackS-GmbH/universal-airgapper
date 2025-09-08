@@ -44,9 +44,13 @@ class ConfigHelmChart(BaseModel):
       """,
     )
     target_registry: str = Field(
-        ..., min_length=1, description="Target registry of the Helm chart, OCI or legacy."
+        ...,
+        min_length=1,
+        description="Target registry of the Helm chart, OCI or legacy.",
     )
-    target_repo: str = Field(..., min_length=1, description="Target repository of the Helm chart.")
+    target_repo: str = Field(
+        ..., min_length=1, description="Target repository of the Helm chart."
+    )
     target_repo_type: Literal["oci", "nexus"] = Field(
         "oci", min_length=1, description="Target repository type."
     )

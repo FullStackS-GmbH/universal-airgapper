@@ -10,7 +10,10 @@ from models.scanner.scanner_neuvector import ScannerNeuVector
 @pytest.fixture
 def sample_credentials():
     return CredsScanner(
-        name="test_scanner", type="neuvector", username="test_user", password="test_password"
+        name="test_scanner",
+        type="neuvector",
+        username="test_user",
+        password="test_password",
     )
 
 
@@ -52,7 +55,8 @@ def test_validate_connection(scanner, requests_mock):
 
 def test_fetch_nv_token(scanner, requests_mock):
     requests_mock.post(
-        "https://neuvector.example.com:443/v1/auth", json={"token": {"token": "test_token"}}
+        "https://neuvector.example.com:443/v1/auth",
+        json={"token": {"token": "test_token"}},
     )
     assert scanner.fetch_nv_token() is True
     assert scanner.token == "test_token"
@@ -93,7 +97,8 @@ def test_process_result(scanner):
 
 def test_scan_image(scanner, sample_image, requests_mock):
     requests_mock.post(
-        "https://neuvector.example.com:443/v1/auth", json={"token": {"token": "test_token"}}
+        "https://neuvector.example.com:443/v1/auth",
+        json={"token": {"token": "test_token"}},
     )
     requests_mock.post(
         "https://neuvector.example.com:443/v1/scan/repository",

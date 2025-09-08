@@ -33,7 +33,9 @@ class SyncResources:
         Exception: Raised in the event of an unrecognized resource type.
     """
 
-    def __init__(self, resources: List[Union[ConfigHelmChart, ConfigImage, ConfigGitRepo]]):
+    def __init__(
+        self, resources: List[Union[ConfigHelmChart, ConfigImage, ConfigGitRepo]]
+    ):
         self.images: List[Image] = []
         self.charts: List[ConfigHelmChart] = []
         self.repos: List[GitRepo] = []
@@ -52,7 +54,9 @@ class SyncResources:
     def add_helm(self, chart: ConfigHelmChart):
         """Adds a new helm chart configuration."""
         if self.__has_overlap(chart):
-            logging.warning(f"duplicate helm chart? {chart.source_registry}/{chart.source_chart}")
+            logging.warning(
+                f"duplicate helm chart? {chart.source_registry}/{chart.source_chart}"
+            )
         else:
             self.charts.append(chart)
 
@@ -70,7 +74,9 @@ class SyncResources:
         else:
             self.repos.append(GitRepo(repo))
 
-    def __has_overlap(self, resource: Union[ConfigHelmChart, ConfigImage, ConfigGitRepo]):
+    def __has_overlap(
+        self, resource: Union[ConfigHelmChart, ConfigImage, ConfigGitRepo]
+    ):
         """
         Determines if there is an overlap between the given resource and the existing
         resources in the current object. Compares the resource's source properties
@@ -96,8 +102,13 @@ class SyncResources:
                     for existing in self.charts
                 )
             case ConfigImage():
-                return any(existing.source == resource.source for existing in self.images)
+                return any(
+                    existing.source == resource.source for existing in self.images
+                )
             case ConfigGitRepo():
-                return any(existing.source_repo == resource.source_repo for existing in self.repos)
+                return any(
+                    existing.source_repo == resource.source_repo
+                    for existing in self.repos
+                )
             case _:
                 raise ValueError(f"Unknown resource type: {type(resource)}")

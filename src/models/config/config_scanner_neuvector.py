@@ -16,8 +16,12 @@ class ConfigNeuvectorScanner(ConfigScanner):
     """
 
     type: Literal["neuvector"]
-    hostname: str = Field(..., min_length=1, description="Hostname of the NeuVector scanner.")
-    port: int = Field(..., ge=1, le=65535, description="Port number of the NeuVector scanner.")
+    hostname: str = Field(
+        ..., min_length=1, description="Hostname of the NeuVector scanner."
+    )
+    port: int = Field(
+        ..., ge=1, le=65535, description="Port number of the NeuVector scanner."
+    )
     verify_tls: bool = Field(
         default=True,
         description="Whether to verify TLS certificates when connecting to the scanner.",

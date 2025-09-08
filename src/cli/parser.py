@@ -30,7 +30,9 @@ def create_parser():
         "--config-folder", help="Path to a folder containing YAML sync config files"
     )
 
-    parser.add_argument("--debug", action="store_true", default=False, help="Enable debug logging")
+    parser.add_argument(
+        "--debug", action="store_true", default=False, help="Enable debug logging"
+    )
     return parser
 
 
@@ -57,4 +59,6 @@ def validate_arguments(args):
         )
     # Ensure one (and only one) of --config-file or --config-folder is provided
     if not bool(args.config_file) ^ bool(args.config_folder):
-        raise ValueError("You must provide exactly one of --config-file or --config-folder.")
+        raise ValueError(
+            "You must provide exactly one of --config-file or --config-folder."
+        )

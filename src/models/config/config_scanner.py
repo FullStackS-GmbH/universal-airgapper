@@ -27,8 +27,12 @@ class ConfigScanner(BaseModel):
             Defaults to 0.
     """
 
-    name: str = Field(..., min_length=1, description="Name aka identifier of the scanner")
-    type: Literal["neuvector", "snyk", "cnspec"] = Field(..., description="Type of scanner")
+    name: str = Field(
+        ..., min_length=1, description="Name aka identifier of the scanner"
+    )
+    type: Literal["neuvector", "snyk", "cnspec"] = Field(
+        ..., description="Type of scanner"
+    )
     threshold_critical: int = Field(
         0, ge=-1, lt=999, description="Max number of critical vulnerability issues"
     )

@@ -46,7 +46,9 @@ def pull_helm_chart(
 
     if is_oci:
         return _pull_oci_chart(chart_path, version, registry_url, output_dir, headers)
-    return _pull_traditional_chart(chart_path, version, registry_url, output_dir, headers)
+    return _pull_traditional_chart(
+        chart_path, version, registry_url, output_dir, headers
+    )
 
 
 def _pull_traditional_chart(

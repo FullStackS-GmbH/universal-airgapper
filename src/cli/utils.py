@@ -68,7 +68,9 @@ def get_registry_token(
     parsed_image = parse_docker_image(image_str=image)
 
     # Step 1: Trigger 401 to get the auth challenge
-    test_url = f"https://{parsed_image[0]}/v2/{parsed_image[1]}/manifests/{parsed_image[2]}"
+    test_url = (
+        f"https://{parsed_image[0]}/v2/{parsed_image[1]}/manifests/{parsed_image[2]}"
+    )
     headers = {
         "Accept": (
             "application/vnd.docker.distribution.manifest.v2+json,"
@@ -89,7 +91,9 @@ def get_registry_token(
         raise RequestException(f"Unsupported authentication scheme: {www_auth}")
 
     # Step 2: Parse auth challenge
-    parts = dict(kv.strip().split("=") for kv in www_auth.replace("Bearer ", "").split(","))
+    parts = dict(
+        kv.strip().split("=") for kv in www_auth.replace("Bearer ", "").split(",")
+    )
     realm = parts["realm"].strip('"')
     service = parts["service"].strip('"')
     scope = parts["scope"].strip('"')

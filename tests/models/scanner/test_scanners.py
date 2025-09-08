@@ -12,9 +12,15 @@ def test_scanners_initialization_with_empty_list():
 
 def test_add_scanner_with_neuvector_config():
     scanners = Scanners(scanners=[])
-    creds = CredsScanner(name="scanner1", type="neuVector", username="user", password="pass")
+    creds = CredsScanner(
+        name="scanner1", type="neuVector", username="user", password="pass"
+    )
     config = ConfigNeuvectorScanner(
-        type="neuvector", name="neuVectorScanner", hostname="localhost", port=8443, verify_tls=True
+        type="neuvector",
+        name="neuVectorScanner",
+        hostname="localhost",
+        port=8443,
+        verify_tls=True,
     )
     scanners.add_scanner(scanner=config, creds=creds)
     assert len(scanners.scanners) == 1
@@ -24,9 +30,15 @@ def test_add_scanner_with_neuvector_config():
 
 
 def test_get_scanner_returns_correct_scanner():
-    creds = CredsScanner(name="scanner1", type="neuVector", username="user", password="pass")
+    creds = CredsScanner(
+        name="scanner1", type="neuVector", username="user", password="pass"
+    )
     config = ConfigNeuvectorScanner(
-        type="neuvector", name="neuVectorScanner", hostname="localhost", port=8443, verify_tls=True
+        type="neuvector",
+        name="neuVectorScanner",
+        hostname="localhost",
+        port=8443,
+        verify_tls=True,
     )
 
     scanner = ScannerNeuVector(credentials=creds, config=config)
@@ -40,9 +52,15 @@ def test_get_scanner_returns_correct_scanner():
 
 
 def test_get_scanner_returns_none_on_invalid_name():
-    creds = CredsScanner(name="scanner1", type="neuVector", username="user", password="pass")
+    creds = CredsScanner(
+        name="scanner1", type="neuVector", username="user", password="pass"
+    )
     config = ConfigNeuvectorScanner(
-        type="neuvector", name="neuVectorScanner", hostname="localhost", port=8443, verify_tls=True
+        type="neuvector",
+        name="neuVectorScanner",
+        hostname="localhost",
+        port=8443,
+        verify_tls=True,
     )
 
     scanner = ScannerNeuVector(credentials=creds, config=config)

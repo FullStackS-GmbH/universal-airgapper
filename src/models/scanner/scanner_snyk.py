@@ -72,7 +72,8 @@ class ScannerSnyk(Scanner):
             )
             if result.returncode in [2, 3]:
                 return ScannerResult(
-                    ok=False, msg=f"snyk error [{result.returncode}]: {result.stderr.strip()}"
+                    ok=False,
+                    msg=f"snyk error [{result.returncode}]: {result.stderr.strip()}",
                 )
 
             sarif = json.loads(result.stdout)

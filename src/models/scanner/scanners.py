@@ -46,7 +46,9 @@ class Scanners:
         """
         match scanner:
             case ConfigNeuvectorScanner():
-                self.scanners.append(ScannerNeuVector(credentials=creds, config=scanner))
+                self.scanners.append(
+                    ScannerNeuVector(credentials=creds, config=scanner)
+                )
             case ConfigSnykScanner():
                 self.scanners.append(ScannerSnyk(credentials=creds, config=scanner))
             case ConfigCnspecScanner():

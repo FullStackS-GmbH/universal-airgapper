@@ -61,7 +61,10 @@ def _upload_config_blob(config_bytes, config_digest, base_url, headers):
         ).headers["Location"]
         headers["Content-Type"] = "application/octet-stream"
         requests.put(
-            f"{upload_url}&digest={config_digest}", headers=headers, data=config_bytes, timeout=10
+            f"{upload_url}&digest={config_digest}",
+            headers=headers,
+            data=config_bytes,
+            timeout=10,
         ).raise_for_status()
 
 
@@ -98,7 +101,9 @@ def _push_manifest(manifest_json, tgt_image_tag, base_url, headers):
     """
     headers["Content-Type"] = manifest_json.get("mediaType", "application/json")
     manifest_url = f"{base_url}/manifests/{tgt_image_tag}"
-    response = requests.put(manifest_url, headers=headers, json=manifest_json, timeout=10)
+    response = requests.put(
+        manifest_url, headers=headers, json=manifest_json, timeout=10
+    )
     response.raise_for_status()
     return response.headers.get("Docker-Content-Digest", "")
 
@@ -127,7 +132,9 @@ def _generate_auth_headers(username, password):
     return None
 
 
-def _upload_layer(layer_path, base_url, headers, default_content_type="application/octet-stream"):
+def _upload_layer(
+    layer_path, base_url, headers, default_content_type="application/octet-stream"
+):
     """
     Uploads a binary layer to a specified remote server, ensuring the layer does
     not already exist on the server. Calculates the SHA-256 digest of the layer
@@ -163,7 +170,10 @@ def _upload_layer(layer_path, base_url, headers, default_content_type="applicati
         with open(layer_path, "rb") as f:
             headers["Content-Type"] = "application/octet-stream"
             requests.put(
-                f"{upload_url}&digest={layer_digest}", headers=headers, data=f, timeout=10
+                f"{upload_url}&digest={layer_digest}",
+                headers=headers,
+                data=f,
+                timeout=10,
             ).raise_for_status()
     return {
         "mediaType": default_content_type,
@@ -232,7 +242,9 @@ def push_container_image(
             layer_file = layer_sha.replace(":", "_")
             layer_path = os.path.join(src_image_dir, layer_file)
             if os.path.isfile(layer_path):
-                layers.append(_upload_layer(layer_path, base_url, headers, default_content_type))
+                layers.append(
+                    _upload_layer(layer_path, base_url, headers, default_content_type)
+                )
     except Exception as e:
         msg = f"Error uploading layers for: {tgt_image_name}"
         logging.error(msg)
@@ -252,7 +264,9 @@ def push_container_image(
 
     # Step 5: Push manifest
     try:
-        manifest_digest = _push_manifest(manifest_json, tgt_image_tag, base_url, headers)
+        manifest_digest = _push_manifest(
+            manifest_json, tgt_image_tag, base_url, headers
+        )
     except Exception as e:
         msg = f"Error uploading manifest for: {tgt_image_name}"
         logging.error(msg)

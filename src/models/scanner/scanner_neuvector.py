@@ -193,7 +193,8 @@ class ScannerNeuVector(Scanner):
                     return self.neuvector_2_scanner_result(response.json()["report"])
                 if response.status_code > 400:
                     return ScannerResult(
-                        ok=False, msg=f"scan error [{response.status_code}]: {response.text}"
+                        ok=False,
+                        msg=f"scan error [{response.status_code}]: {response.text}",
                     )
                 sleep(5)
             return ScannerResult(ok=False, msg="exceeded scan timeout")

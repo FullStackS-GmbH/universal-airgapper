@@ -25,8 +25,12 @@ class ConfigSnykScanner(ConfigScanner):
     """
 
     type: Literal["snyk"]
-    hostname: str = Field("api.snyk.io", description="Hostname of the Snyk Endpoint scanner.")
-    port: int = Field(443, ge=1, lt=65536, description="Port number of the Snyk Endpoint scanner.")
+    hostname: str = Field(
+        "api.snyk.io", description="Hostname of the Snyk Endpoint scanner."
+    )
+    port: int = Field(
+        443, ge=1, lt=65536, description="Port number of the Snyk Endpoint scanner."
+    )
     verify_tls: bool = Field(
         default=True,
         description="Whether to verify TLS certificates when connecting to the Snyk Endpoint.",

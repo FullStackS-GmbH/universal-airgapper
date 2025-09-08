@@ -26,14 +26,20 @@ class ConfigGitRepo(BaseModel):
 
     type: str = Field("git", min_length=1, description="Object of type 'git'")
     source_repo: str = Field(
-        ..., min_length=1, description="URL of the source repository: [https, ssh, git@]"
+        ...,
+        min_length=1,
+        description="URL of the source repository: [https, ssh, git@]",
     )
     target_repo: str = Field(
-        ..., min_length=1, description="URL of the target repository: [https, ssh, git@]"
+        ...,
+        min_length=1,
+        description="URL of the target repository: [https, ssh, git@]",
     )
     push_mode: Literal["push", "skip", "force"] = Field(
-        "skip", description="skip, try to push or force push if target ref already exists"
+        "skip",
+        description="skip, try to push or force push if target ref already exists",
     )
     refs: list[str] = Field(
-        default_factory=list, description="List of references to sync (e.g., branches or tags)"
+        default_factory=list,
+        description="List of references to sync (e.g., branches or tags)",
     )

@@ -71,7 +71,9 @@ def pull_container_image(
         ... )
         '/var/images'
     """
-    logging.debug(f"Starting pull for {registry}/{image_name}:{tag} (arch: {architecture})")
+    logging.debug(
+        f"Starting pull for {registry}/{image_name}:{tag} (arch: {architecture})"
+    )
 
     if registry == "registry-1.docker.io" and "/" not in image_name:
         image_name = f"library/{image_name}"
@@ -93,11 +95,15 @@ def pull_container_image(
         "application/vnd.oci.image.index.v1+json",
         "application/vnd.docker.distribution.manifest.list.v2+json",
     ]:
-        manifest = _select_matching_manifest(manifest, architecture, registry, image_name, headers)
+        manifest = _select_matching_manifest(
+            manifest, architecture, registry, image_name, headers
+        )
 
     # Verify and store manifest
     if manifest.get("mediaType") not in SUPPORTED_MANIFEST_TYPES:
-        return RC(ok=False, msg=f"Unsupported manifest type: {manifest.get('mediaType')}")
+        return RC(
+            ok=False, msg=f"Unsupported manifest type: {manifest.get('mediaType')}"
+        )
     os.makedirs(output_dir, exist_ok=True)
     manifest_path = os.path.join(output_dir, "manifest.json")
     with open(manifest_path, "w", encoding="utf-8") as f:
@@ -116,7 +122,9 @@ def pull_container_image(
                 layer_path,
                 expected_size=layer.get("size"),
             )
-            logging.debug(f"Layer {i}/{len(manifest['layers'])} downloaded: {layer['digest']}")
+            logging.debug(
+                f"Layer {i}/{len(manifest['layers'])} downloaded: {layer['digest']}"
+            )
     except requests.exceptions.RequestException as e:
         msg = f"could not fetch image layer {image_name}:{tag} from {registry} -> {e}"
         logging.error(msg)
@@ -126,7 +134,9 @@ def pull_container_image(
     try:
         if "config" in manifest:
             config_path = os.path.join(output_dir, "config.json")
-            _download_blob(manifest["config"]["digest"], registry, image_name, headers, config_path)
+            _download_blob(
+                manifest["config"]["digest"], registry, image_name, headers, config_path
+            )
     except requests.exceptions.RequestException as e:
         msg = f"could not fetch config manifest for {image_name}:{tag} from {registry} -> {e}"
         logging.error(msg)
@@ -291,7 +301,9 @@ def _select_matching_manifest(
     for candidate in manifest["manifests"]:
         if candidate["platform"]["architecture"] == architecture:
             logging.debug(f"Found matching manifest for architecture: {architecture}")
-            sub_manifest_url = f"https://{registry}/v2/{image_name}/manifests/{candidate['digest']}"
+            sub_manifest_url = (
+                f"https://{registry}/v2/{image_name}/manifests/{candidate['digest']}"
+            )
             return _fetch_manifest(sub_manifest_url, headers)
     raise ValueError(f"No matching manifest found for architecture: {architecture}")
 

@@ -57,7 +57,10 @@ def print_rc(rc: RC):
         if not _rc.sync_cnt:
             continue
         if _rc.type not in status:
-            status[_rc.type] = {"ok": {"cnt": 0, "items": []}, "nok": {"cnt": 0, "items": []}}
+            status[_rc.type] = {
+                "ok": {"cnt": 0, "items": []},
+                "nok": {"cnt": 0, "items": []},
+            }
         if _rc.ok:
             status[_rc.type]["ok"]["cnt"] += 1
             status[_rc.type]["ok"]["items"].append(_rc)

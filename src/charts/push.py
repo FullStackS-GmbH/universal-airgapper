@@ -47,7 +47,11 @@ def push_helm_chart(
         return RC(ok=False, type="helm", msg=f"Chart file not found at {chart_path}")
 
     if not chart_path.endswith(".tgz"):
-        return RC(ok=False, type="helm", msg=f"Chart file must be a .tgz archive, got {chart_path}")
+        return RC(
+            ok=False,
+            type="helm",
+            msg=f"Chart file must be a .tgz archive, got {chart_path}",
+        )
 
     # Extract chart metadata
     chart_info = extract_chart_info(chart_path)
@@ -207,7 +211,9 @@ def _push_oci_chart(
 
         upload_location = response.headers["Location"]
         headers_with_type = headers.copy()
-        headers_with_type["Content-Type"] = "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+        headers_with_type["Content-Type"] = (
+            "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+        )
         response = requests.put(
             f"{upload_location}&digest={chart_digest}",
             headers=headers_with_type,
@@ -236,10 +242,10 @@ def _push_oci_chart(
 
         headers_with_type = headers.copy()
         headers_with_type["Content-Type"] = "application/vnd.oci.image.manifest.v1+json"
-        manifest_url = (
-            f"{repo_url.rstrip('/')}/v2/{chart_repo_path}/manifests/{chart_info['version']}"
+        manifest_url = f"{repo_url.rstrip('/')}/v2/{chart_repo_path}/manifests/{chart_info['version']}"
+        response = requests.put(
+            manifest_url, headers=headers_with_type, json=manifest, timeout=10
         )
-        response = requests.put(manifest_url, headers=headers_with_type, json=manifest, timeout=10)
         response.raise_for_status()
     except requests.RequestException as e:
         msg = f"Error pushing chart to OCI repository: {e}"

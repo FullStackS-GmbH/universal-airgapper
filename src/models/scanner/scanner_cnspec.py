@@ -77,7 +77,8 @@ class ScannerCnspec(Scanner):
             )
             if result.returncode != 0:
                 return ScannerResult(
-                    ok=False, msg=f"cnspec error [{result.returncode}]: {result.stderr.strip()}"
+                    ok=False,
+                    msg=f"cnspec error [{result.returncode}]: {result.stderr.strip()}",
                 )
             json_result = json.loads(result.stdout)
             return self.cnspec_2_scanner_result(json_result)

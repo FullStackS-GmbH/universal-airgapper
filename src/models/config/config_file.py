@@ -31,11 +31,15 @@ class ConfigFile(BaseModel):
             scanners are provided.
     """
 
-    resources: Optional[List[Union[ConfigGitRepo, ConfigImage, ConfigHelmChart]]] = Field(
-        default_factory=list, description="List of resources to sync: Git Repo, Image, Helm Chart"
+    resources: Optional[List[Union[ConfigGitRepo, ConfigImage, ConfigHelmChart]]] = (
+        Field(
+            default_factory=list,
+            description="List of resources to sync: Git Repo, Image, Helm Chart",
+        )
     )
     scanners: Optional[
         List[Union[ConfigNeuvectorScanner, ConfigSnykScanner, ConfigCnspecScanner]]
     ] = Field(
-        default_factory=list, description="List of available scanners: Neuvector, Snyk, Cnspec,.."
+        default_factory=list,
+        description="List of available scanners: Neuvector, Snyk, Cnspec,..",
     )

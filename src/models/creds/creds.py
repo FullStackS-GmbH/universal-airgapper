@@ -75,7 +75,9 @@ class Creds:
                 config_path="./tmp/config.json",
             )
 
-    def write_docker_config(self, registry, username, password, config_path="/tmp/config.json"):
+    def write_docker_config(
+        self, registry, username, password, config_path="/tmp/config.json"
+    ):
         """
         Create or update a Docker `config.json` file with authentication credentials.
 
@@ -149,7 +151,9 @@ class Creds:
         """get helm registry creds"""
         return self._get_creds("helm", name)
 
-    def get_scanner_creds(self, scanner_type: ScannerCredType, name: str) -> CredsScanner:
+    def get_scanner_creds(
+        self, scanner_type: ScannerCredType, name: str
+    ) -> CredsScanner:
         """get scanner creds"""
         return self._get_creds(scanner_type, name)
 
@@ -207,7 +211,9 @@ class Creds:
             case _:
                 raise ValueError(f"Unknown credential type: {cred_type}")
 
-    def __is_duplicate(self, cred: Union[CredsHelmRegistry, CredsImageRegistry, CredsGitRepo]):
+    def __is_duplicate(
+        self, cred: Union[CredsHelmRegistry, CredsImageRegistry, CredsGitRepo]
+    ):
         """
         Determines whether a given credential already exists within its corresponding
         list of credentials.
@@ -230,6 +236,8 @@ class Creds:
             case CredsGitRepo():
                 return any(existing.name == cred.name for existing in self.git_creds)
             case CredsScanner():
-                return any(existing.name == cred.name for existing in self.scanner_creds)
+                return any(
+                    existing.name == cred.name for existing in self.scanner_creds
+                )
             case _:
                 raise ValueError(f"Unknown credential type: {type(cred)}")

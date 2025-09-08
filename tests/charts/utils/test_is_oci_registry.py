@@ -4,8 +4,7 @@ from charts.utils import is_oci_registry
 
 
 def test_is_oci_registry_v2_api_200(requests_mock):
-    """
-    Test if the function correctly identifies an OCI registry when
+    """Test if the function correctly identifies an OCI registry when
     the repository v2 API endpoint responds with a 200 status code.
     """
     repo_url = "https://example.com/registry"
@@ -18,8 +17,7 @@ def test_is_oci_registry_v2_api_200(requests_mock):
 
 
 def test_is_oci_registry_v2_api_401(requests_mock):
-    """
-    Test if the function correctly identifies an OCI registry when
+    """Test if the function correctly identifies an OCI registry when
     the repository v2 API endpoint responds with a 401 status code.
     """
     repo_url = "https://example.com/registry"
@@ -32,9 +30,8 @@ def test_is_oci_registry_v2_api_401(requests_mock):
 
 
 def test_is_oci_registry_v2_api_404(requests_mock):
-    """
-    Test if the function correctly identifies a non-OCI registry when
-    the repository v2 API endpoint responds with a 404 status code.
+    """Test if the function correctly identifies a non-OCI registry when the repository
+    v2 API endpoint responds with a 404 status code.
     """
     repo_url = "https://example.com/registry"
     headers = {"Authorization": "Bearer token123"}
@@ -49,8 +46,7 @@ def test_is_oci_registry_v2_api_404(requests_mock):
 
 
 def test_is_oci_registry_request_exception(requests_mock):
-    """
-    Test if the function correctly identifies a non-OCI registry when
+    """Test if the function correctly identifies a non-OCI registry when
     an exception occurs during the requests.
     """
     repo_url = "https://example.com/registry"

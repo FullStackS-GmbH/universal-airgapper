@@ -14,7 +14,9 @@ def test_creds_file_initialization_with_defaults():
 
 
 def test_creds_file_with_scanners():
-    scanner = CredsScanner(name="Scanner1", type="TypeA", username="user", password="pass")
+    scanner = CredsScanner(
+        name="Scanner1", type="TypeA", username="user", password="pass"
+    )
     creds_file = CredsFile(scanners=[scanner])
     assert len(creds_file.scanners) == 1
     assert creds_file.scanners[0].name == "Scanner1"
@@ -35,7 +37,9 @@ def test_creds_file_with_image_registries():
 
 
 def test_creds_file_with_helm_registries():
-    helm_registry = CredsHelmRegistry(name="HelmRepo1", username="helm_user", password="helm_pass")
+    helm_registry = CredsHelmRegistry(
+        name="HelmRepo1", username="helm_user", password="helm_pass"
+    )
     creds_file = CredsFile(helm=[helm_registry])
     assert len(creds_file.helm) == 1
     assert creds_file.helm[0].name == "HelmRepo1"
@@ -45,7 +49,10 @@ def test_creds_file_with_helm_registries():
 
 def test_creds_file_with_git_repos():
     git_repo = CredsGitRepo(
-        name="Repo1", ssh_key_path="/path/to/key", username="git_user", password="git_pass"
+        name="Repo1",
+        ssh_key_path="/path/to/key",
+        username="git_user",
+        password="git_pass",
     )
     creds_file = CredsFile(git=[git_repo])
     assert len(creds_file.git) == 1

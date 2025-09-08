@@ -9,6 +9,7 @@ repos:
           - --allow-multiple-documents
       - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: check-added-large-files
       - id: check-byte-order-marker
       - id: check-executables-have-shebangs
       - id: check-json
@@ -27,6 +28,8 @@ repos:
               ^creds/|
               ^README.md
           )
+      - id: name-tests-test
+        args: [--pytest-test-first]
   # commit-message & author
   # https://jorisroovers.com/gitlint/
   - repo: https://github.com/jorisroovers/gitlint
@@ -43,27 +46,13 @@ repos:
           - '-ctitle-match-regex.regex=^(feat|fix|try|maintain)!?(\(.*\))?:.+|^Merge branch.*'
           - "-cauthor-valid-email.regex=[^@]+@fullstacks.eu"
           - --msg-filename
-  # Python code formatter (Black)
-  - repo: https://github.com/psf/black
-    rev: 23.9.1  # Update to the latest version
-    hooks:
-      - id: black
-        language_version: python3.12  # Match your Python version
 
-  # Linter (Flake8)
-  - repo: https://github.com/pycqa/flake8
-    rev: 6.1.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.4
     hooks:
-      - id: flake8
-        additional_dependencies: [ ]
-        args: [ "--max-line-length=100" ]  # Optional: Customize to match Black's line length
-
-  # Sort Python imports (isort)
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-        args: [ "--profile", "black" ]
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
 
   - repo: local
     hooks:
