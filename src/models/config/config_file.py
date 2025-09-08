@@ -1,5 +1,3 @@
-from typing import List, Optional, Union
-
 from pydantic import BaseModel, Field
 
 from models.config.config_git_repo import ConfigGitRepo
@@ -11,8 +9,7 @@ from models.config.config_scanner_snyk import ConfigSnykScanner
 
 
 class ConfigFile(BaseModel):
-    """
-    Represents a configuration file used for managing and organizing different
+    """Represents a configuration file used for managing and organizing different
     resources and scanners within a system.
 
     This class is a data model that defines the structure of the configuration
@@ -31,15 +28,11 @@ class ConfigFile(BaseModel):
             scanners are provided.
     """
 
-    resources: Optional[List[Union[ConfigGitRepo, ConfigImage, ConfigHelmChart]]] = (
-        Field(
-            default_factory=list,
-            description="List of resources to sync: Git Repo, Image, Helm Chart",
-        )
+    resources: list[ConfigGitRepo | ConfigImage | ConfigHelmChart] | None = Field(
+        default_factory=list,
+        description="List of resources to sync: Git Repo, Image, Helm Chart",
     )
-    scanners: Optional[
-        List[Union[ConfigNeuvectorScanner, ConfigSnykScanner, ConfigCnspecScanner]]
-    ] = Field(
+    scanners: list[ConfigNeuvectorScanner | ConfigSnykScanner | ConfigCnspecScanner] | None = Field(
         default_factory=list,
         description="List of available scanners: Neuvector, Snyk, Cnspec,..",
     )

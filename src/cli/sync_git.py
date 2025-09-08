@@ -10,8 +10,7 @@ from repositories.utils import get_matching_refs, pattern_is_regex
 
 
 def sync_repo(repo: GitRepo, creds: Creds) -> RC:
-    """
-    Synchronize the specified Git repository by processing its references.
+    """Synchronize the specified Git repository by processing its references.
 
     This function processes the repository and its associated references (refs),
     syncing those that match the given patterns while skipping duplicates. It uses
@@ -53,9 +52,7 @@ def sync_repo(repo: GitRepo, creds: Creds) -> RC:
 
         for ref in refs:
             if ref in all_refs:
-                logging.info(
-                    f"skipping ref - already processed: {repo.source_repo}:{ref}"
-                )
+                logging.info(f"skipping ref - already processed: {repo.source_repo}:{ref}")
             else:
                 logging.info(f"working on ref: {ref}")
                 all_refs.append(ref)
@@ -84,8 +81,7 @@ def _sync_repo_ref(
     credentials: Creds,
     push_mode: Literal["push", "skip", "force"] = "push",
 ) -> RC:
-    """
-    Synchronizes a specific reference from a source Git repository to a target Git repository.
+    """Synchronizes a specific reference from a source Git repository to a target Git repository.
 
     This function pulls a specific reference (branch, tag, or commit) from a source Git repository
     and pushes it to a target Git repository. Authentication credentials are retrieved dynamically

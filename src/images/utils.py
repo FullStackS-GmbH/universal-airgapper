@@ -1,7 +1,6 @@
 import base64
 import logging
 import re
-from typing import Optional
 
 import requests
 
@@ -10,8 +9,7 @@ from models.resources.image import Image
 
 
 def image_to_folder_name(image_name: str) -> str:
-    """
-    Converts an image name into a safe folder name by removing unsafe characters
+    """Converts an image name into a safe folder name by removing unsafe characters
     and formatting it to be compatible with file systems.
 
     Args:
@@ -44,11 +42,10 @@ def image_to_folder_name(image_name: str) -> str:
 def check_image_tag_exists(
     image: Image,
     tag: str,
-    username: Optional[str] = None,
-    password: Optional[str] = None,
+    username: str | None = None,
+    password: str | None = None,
 ) -> RC:
-    """
-    Checks if a specific Docker image tag exists in a container registry. It handles
+    """Checks if a specific Docker image tag exists in a container registry. It handles
     authentication through either basic authentication (username/password) or token-based
     authentication for Docker Hub. The function performs a HEAD request to determine
     if the specified tag is available.
@@ -90,7 +87,7 @@ def check_image_tag_exists(
             if "/" not in image.target_repo:
                 repository = f"library/{image.target_repo}"
             # Get token for Docker Hub
-            auth_url = f"https://auth.docker.io/token?service=registry.docker.io&scope=repository:{repository}:pull"  # noqa: E501
+            auth_url = f"https://auth.docker.io/token?service=registry.docker.io&scope=repository:{repository}:pull"
             token_response = requests.get(auth_url, timeout=5)
             if token_response.status_code == 200:
                 token = token_response.json()["token"]
@@ -111,5 +108,5 @@ def check_image_tag_exists(
         return RC(ok=False, msg=f"unexpected response: {response.status_code}")
     except Exception as e:
         msg = str(e)
-        logging.error(msg)
+        logging.exception(msg)
         return RC(ok=False, msg=msg, err=True)

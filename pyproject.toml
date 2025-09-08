@@ -33,10 +33,11 @@ dev = [
     "requests_mock==1.12.1",
     "pylint==3.3.3",
     "ruff>=0.12.12",
+    "pre-commit>=4.3.0",
 ]
 
 [tool.ruff]
-line-length = 88
+line-length = 100
 
 [tool.ruff.lint]
 select = [
@@ -63,6 +64,7 @@ ignore = [
     "D100", # Missing docstring in public module
     "D101", # Missing docstring in public class
     "D103", # Missing docstring in public function
+    "D104", # Missing docstring in public package
     "D107", # Missing docstring in `__init__`
     "D205", # 1 blank line required between summary line and description
 ]

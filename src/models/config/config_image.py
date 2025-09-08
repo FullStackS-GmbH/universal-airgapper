@@ -1,11 +1,10 @@
-from typing import Literal, Optional
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
 
 class ConfigImage(BaseModel):
-    """
-    Holds configuration details for an image and its related operations.
+    """Holds configuration details for an image and its related operations.
 
     This class is designed to represent the configuration data required for
     performing operations on a specific image, such as providing source and target
@@ -36,9 +35,7 @@ class ConfigImage(BaseModel):
         "force",
         description="force, try to force push if target ref already exists or skip",
     )
-    scan: Optional[str] = Field(
-        "", description=".name of the scanner to use for this image"
-    )
+    scan: str | None = Field("", description=".name of the scanner to use for this image")
     tags: list[str] = Field(
         default_factory=list, description="List of tags to sync for this image."
     )

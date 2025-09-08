@@ -2,8 +2,7 @@ import configargparse
 
 
 def create_parser():
-    """
-    Creates and configures an `ArgumentParser` for handling command-line arguments.
+    """Creates and configures an `ArgumentParser` for handling command-line arguments.
     This parser is specifically designed for the tool responsible for syncing Docker
     images, Helm charts, and Git repositories. It supports specifying configuration
     and credential files, as well as enabling debug logging. The parser includes
@@ -30,15 +29,12 @@ def create_parser():
         "--config-folder", help="Path to a folder containing YAML sync config files"
     )
 
-    parser.add_argument(
-        "--debug", action="store_true", default=False, help="Enable debug logging"
-    )
+    parser.add_argument("--debug", action="store_true", default=False, help="Enable debug logging")
     return parser
 
 
 def validate_arguments(args):
-    """
-    Validates the provided command-line arguments to ensure that exactly one of the mutually
+    """Validates the provided command-line arguments to ensure that exactly one of the mutually
     exclusive argument pairs is supplied. This function checks for the presence of either
     credentials or configuration files/folders but not both at the same time.
 
@@ -59,6 +55,4 @@ def validate_arguments(args):
         )
     # Ensure one (and only one) of --config-file or --config-folder is provided
     if not bool(args.config_file) ^ bool(args.config_folder):
-        raise ValueError(
-            "You must provide exactly one of --config-file or --config-folder."
-        )
+        raise ValueError("You must provide exactly one of --config-file or --config-folder.")

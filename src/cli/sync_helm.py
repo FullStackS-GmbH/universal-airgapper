@@ -10,8 +10,7 @@ from models.resources.helm import HelmChart
 
 
 def sync_chart(chart_config: ConfigHelmChart, credentials: Creds) -> RC:
-    """
-    Synchronizes a Helm chart with specified configurations and credentials, processing
+    """Synchronizes a Helm chart with specified configurations and credentials, processing
     chart versions and determining their synchronization results.
 
     Args:
@@ -57,9 +56,7 @@ def sync_chart(chart_config: ConfigHelmChart, credentials: Creds) -> RC:
         )
         _rc.sync_cnt = True
         _rc.type = "helm"
-        _rc.ref = (
-            f"{chart_config.source_registry} - {chart_config.source_chart}:{version}"
-        )
+        _rc.ref = f"{chart_config.source_registry} - {chart_config.source_chart}:{version}"
         rc.entity.append(_rc)
     for _rc in rc.entity:
         if not _rc.ok:
@@ -72,8 +69,7 @@ def _sync_chart_version(
     chart: HelmChart,
     creds: Creds,
 ) -> RC:
-    """
-    Synchronizes a Helm chart version between source and target registries.
+    """Synchronizes a Helm chart version between source and target registries.
 
     This function handles the process of ensuring that the specified Helm chart
     exists in the target registry by pulling the Helm chart from the source
@@ -94,9 +90,7 @@ def _sync_chart_version(
             operation, including its status (success or failure), error details
             if any, and reference details when applicable.
     """
-    logging.info(
-        f"pulling [{chart.source_registry}] {chart.chart_name} : {chart.version}"
-    )
+    logging.info(f"pulling [{chart.source_registry}] {chart.chart_name} : {chart.version}")
     folder_name = "./tmp/sync_tmp"
 
     # src_headers = get_auth_headers(creds=creds, registry=chart.source_registry, repo=chart.source)
@@ -125,9 +119,7 @@ def _sync_chart_version(
     if not _rc.ok:
         return _rc
 
-    logging.info(
-        f"pushing [{chart.target_registry}] repo - {chart.target_repo} : {chart.version}"
-    )
+    logging.info(f"pushing [{chart.target_registry}] repo - {chart.target_repo} : {chart.version}")
     _rc = push_helm_chart(
         chart_path=_rc.ref,
         repo_type=chart.target_repo_type,

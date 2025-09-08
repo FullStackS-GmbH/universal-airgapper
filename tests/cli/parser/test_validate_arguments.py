@@ -30,7 +30,7 @@ def test_validate_arguments_credentials_missing():
     args = MockArgs(config_file="file.txt")
     with pytest.raises(
         ValueError,
-        match="You must provide exactly one of --credentials-file or --credentials-folder.",  # noqa: E501
+        match="You must provide exactly one of --credentials-file or --credentials-folder.",
     ):
         validate_arguments(args)
 
@@ -41,15 +41,13 @@ def test_validate_arguments_credentials_double():
     )
     with pytest.raises(
         ValueError,
-        match="You must provide exactly one of --credentials-file or --credentials-folder.",  # noqa: E501
+        match="You must provide exactly one of --credentials-file or --credentials-folder.",
     ):
         validate_arguments(args)
 
 
 def test_validate_arguments_config_double():
-    args = MockArgs(
-        config_file="file.txt", config_folder="folder", credentials_file="file.txt"
-    )
+    args = MockArgs(config_file="file.txt", config_folder="folder", credentials_file="file.txt")
     with pytest.raises(
         ValueError,
         match="You must provide exactly one of --config-file or --config-folder.",

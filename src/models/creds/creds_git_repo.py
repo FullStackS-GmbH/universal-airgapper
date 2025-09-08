@@ -1,11 +1,8 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
 
 class CredsGitRepo(BaseModel):
-    """
-    Represents credentials for accessing a Git repository.
+    """Represents credentials for accessing a Git repository.
 
     This class is intended to encapsulate the authentication information required
     to interact with a Git repository. It allows specification of a repository name,
@@ -15,6 +12,6 @@ class CredsGitRepo(BaseModel):
     """
 
     name: str
-    ssh_key_path: Optional[str] = None
-    username: Optional[str] = None
-    password: Optional[str] = None
+    ssh_key_path: str | None = None
+    username: str | None = None
+    password: str | None = None

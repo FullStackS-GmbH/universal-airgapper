@@ -13,9 +13,9 @@ from models.resources.git import GitRepo
 def get_all_tags_remote(
     repo_url: str,
     target_path: str,
-    username: str = None,
-    password: str = None,
-    ssh_key_path: str = None,
+    username: str | None = None,
+    password: str | None = None,
+    ssh_key_path: str | None = None,
 ) -> list[str]:
     """Retrieves all tags from a remote Git repository.
 
@@ -56,9 +56,7 @@ def get_all_tags_remote(
             url_parts = repo_url.split("://")
             repo_url = f"{url_parts[0]}://{username}:{password}@{url_parts[1]}"
         elif username or password:
-            logging.error(
-                "Both username and password are required for HTTPS authentication."
-            )
+            logging.error("Both username and password are required for HTTPS authentication.")
             return []
 
         # Clone the repository into the temporary directory (shallow clone --tags only)

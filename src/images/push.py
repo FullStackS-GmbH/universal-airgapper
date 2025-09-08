@@ -5,7 +5,6 @@ import os
 import pathlib
 import shutil
 from base64 import b64encode
-from typing import Optional
 
 import requests
 
@@ -13,8 +12,7 @@ from models.rc import RC
 
 
 def _cleanup_directory(src_image_dir):
-    """
-    Cleans up the contents of the specified directory by removing all files and
+    """Cleans up the contents of the specified directory by removing all files and
     subdirectories.
 
     Args:
@@ -31,8 +29,7 @@ def _cleanup_directory(src_image_dir):
 
 
 def _upload_config_blob(config_bytes, config_digest, base_url, headers):
-    """
-    Uploads a configuration blob to a remote server if it does not already exist.
+    """Uploads a configuration blob to a remote server if it does not already exist.
 
     The function checks whether the configuration blob identified by the given
     digest exists on the remote server. If it does not exist, the function uploads
@@ -69,8 +66,7 @@ def _upload_config_blob(config_bytes, config_digest, base_url, headers):
 
 
 def _push_manifest(manifest_json, tgt_image_tag, base_url, headers):
-    """
-    Pushes a manifest to a remote registry with a specified target image tag.
+    """Pushes a manifest to a remote registry with a specified target image tag.
 
     This function takes a manifest in JSON format and pushes it to an image repository
     under a target image tag. It sends a PUT request to the manifest endpoint of
@@ -101,17 +97,13 @@ def _push_manifest(manifest_json, tgt_image_tag, base_url, headers):
     """
     headers["Content-Type"] = manifest_json.get("mediaType", "application/json")
     manifest_url = f"{base_url}/manifests/{tgt_image_tag}"
-    response = requests.put(
-        manifest_url, headers=headers, json=manifest_json, timeout=10
-    )
+    response = requests.put(manifest_url, headers=headers, json=manifest_json, timeout=10)
     response.raise_for_status()
     return response.headers.get("Docker-Content-Digest", "")
 
 
 def _generate_auth_headers(username, password):
-    """
-
-    Generates authentication headers for Basic Auth.
+    """Generates authentication headers for Basic Auth.
 
     This function creates a dictionary containing the Authorization header
     required for Basic Authentication, encoded in Base64 format. If either
@@ -132,11 +124,8 @@ def _generate_auth_headers(username, password):
     return None
 
 
-def _upload_layer(
-    layer_path, base_url, headers, default_content_type="application/octet-stream"
-):
-    """
-    Uploads a binary layer to a specified remote server, ensuring the layer does
+def _upload_layer(layer_path, base_url, headers, default_content_type="application/octet-stream"):
+    """Uploads a binary layer to a specified remote server, ensuring the layer does
     not already exist on the server. Calculates the SHA-256 digest of the layer
     to verify integrity and handles re-upload only if the digest is not found
     on the server.
@@ -187,12 +176,11 @@ def push_container_image(
     tgt_image_name: str,
     tgt_image_tag: str,
     tgt_registry: str = "registry-1.docker.io",
-    username: Optional[str] = None,
-    password: Optional[str] = None,
+    username: str | None = None,
+    password: str | None = None,
     cleanup_src_image_dir: bool = True,
 ) -> RC:
-    """
-    Pushes a container image to a specified target registry.
+    """Pushes a container image to a specified target registry.
 
     This function handles uploading a container image along with its associated layers
     and configuration to a target registry. The process involves generating authentication
@@ -230,7 +218,7 @@ def push_container_image(
     manifest_path = os.path.join(src_image_dir, "manifest.json")
 
     manifest_json = {}
-    with open(manifest_path, "r", encoding="utf-8") as f:
+    with open(manifest_path, encoding="utf-8") as f:
         manifest_json = json.load(f)
 
     # Step 2: Upload layers
@@ -242,12 +230,10 @@ def push_container_image(
             layer_file = layer_sha.replace(":", "_")
             layer_path = os.path.join(src_image_dir, layer_file)
             if os.path.isfile(layer_path):
-                layers.append(
-                    _upload_layer(layer_path, base_url, headers, default_content_type)
-                )
+                layers.append(_upload_layer(layer_path, base_url, headers, default_content_type))
     except Exception as e:
         msg = f"Error uploading layers for: {tgt_image_name}"
-        logging.error(msg)
+        logging.exception(msg)
         return RC(ok=False, entity=e, msg=msg)
 
     # Step 3: Generate or load configuration
@@ -259,17 +245,15 @@ def push_container_image(
         _upload_config_blob(config_bytes, config_digest, base_url, headers)
     except Exception as e:
         msg = f"Error uploading config for: {tgt_image_name}"
-        logging.error(msg)
+        logging.exception(msg)
         return RC(ok=False, entity=e, msg=msg)
 
     # Step 5: Push manifest
     try:
-        manifest_digest = _push_manifest(
-            manifest_json, tgt_image_tag, base_url, headers
-        )
+        manifest_digest = _push_manifest(manifest_json, tgt_image_tag, base_url, headers)
     except Exception as e:
         msg = f"Error uploading manifest for: {tgt_image_name}"
-        logging.error(msg)
+        logging.exception(msg)
         return RC(ok=False, entity=e, msg=msg)
 
     # Step 6: Clean up directory (optional)

@@ -2,8 +2,7 @@ from pydantic import BaseModel, Field
 
 
 class CredsImageRegistry(BaseModel):
-    """
-    Represents credentials for an image registry.
+    """Represents credentials for an image registry.
 
     This class is used to store and manage the information necessary for authenticating
     to an image registry. It includes the registry name, username, and password required

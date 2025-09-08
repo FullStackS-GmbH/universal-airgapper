@@ -28,9 +28,7 @@ def test_sync_resources_adds_helm_chart():
 
 
 def test_sync_resources_adds_image():
-    image = ConfigImage(
-        type="image", source="source_image", target="target_image", tags=["latest"]
-    )
+    image = ConfigImage(type="image", source="source_image", target="target_image", tags=["latest"])
     sync = SyncResources([image])
     assert len(sync.images) == 1
     assert sync.images[0].source == image.source
@@ -70,9 +68,7 @@ def test_sync_resources_prevents_duplicate_helm_chart():
 
 
 def test_sync_resources_prevents_duplicate_image():
-    image = ConfigImage(
-        type="image", source="source_image", target="target_image", tags=["latest"]
-    )
+    image = ConfigImage(type="image", source="source_image", target="target_image", tags=["latest"])
     sync = SyncResources([image, image])
     assert len(sync.images) == 1
 

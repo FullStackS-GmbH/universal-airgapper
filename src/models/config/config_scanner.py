@@ -4,8 +4,7 @@ from pydantic import BaseModel, Field
 
 
 class ConfigScanner(BaseModel):
-    """
-    Represents a configuration model for a security scanner.
+    """Represents a configuration model for a security scanner.
 
     This class defines the configuration attributes for different types of security
     scanning tools. It allows specifying the scanner's name, type, and customizable
@@ -27,12 +26,8 @@ class ConfigScanner(BaseModel):
             Defaults to 0.
     """
 
-    name: str = Field(
-        ..., min_length=1, description="Name aka identifier of the scanner"
-    )
-    type: Literal["neuvector", "snyk", "cnspec"] = Field(
-        ..., description="Type of scanner"
-    )
+    name: str = Field(..., min_length=1, description="Name aka identifier of the scanner")
+    type: Literal["neuvector", "snyk", "cnspec"] = Field(..., description="Type of scanner")
     threshold_critical: int = Field(
         0, ge=-1, lt=999, description="Max number of critical vulnerability issues"
     )

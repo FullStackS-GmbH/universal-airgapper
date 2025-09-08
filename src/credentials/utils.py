@@ -1,6 +1,5 @@
 def get_credential(dictionary: dict, key_path: str, separator: str = ".") -> any:
-    """
-    Retrieve a value from a nested dictionary using a key path.
+    """Retrieve a value from a nested dictionary using a key path.
 
     This function navigates through a nested dictionary using the provided key
     path and separator to retrieve the desired value. If any part of the path

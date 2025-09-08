@@ -6,8 +6,7 @@ from models.config.config_scanner import ConfigScanner
 
 
 class ConfigSnykScanner(ConfigScanner):
-    """
-    Represents configuration settings for a Snyk Endpoint scanner.
+    """Represents configuration settings for a Snyk Endpoint scanner.
 
     This class extends the base ConfigScanner class to define specific
     configuration parameters necessary for interacting with the Snyk Endpoint
@@ -25,12 +24,8 @@ class ConfigSnykScanner(ConfigScanner):
     """
 
     type: Literal["snyk"]
-    hostname: str = Field(
-        "api.snyk.io", description="Hostname of the Snyk Endpoint scanner."
-    )
-    port: int = Field(
-        443, ge=1, lt=65536, description="Port number of the Snyk Endpoint scanner."
-    )
+    hostname: str = Field("api.snyk.io", description="Hostname of the Snyk Endpoint scanner.")
+    port: int = Field(443, ge=1, lt=65536, description="Port number of the Snyk Endpoint scanner.")
     verify_tls: bool = Field(
         default=True,
         description="Whether to verify TLS certificates when connecting to the Snyk Endpoint.",

@@ -6,8 +6,7 @@ from models.config.config_scanner import ConfigScanner
 
 
 class ConfigCnspecScanner(ConfigScanner):
-    """
-    Represents the configuration for a CNSpec scanner.
+    """Represents the configuration for a CNSpec scanner.
 
     The ConfigCnspecScanner class is a specialization of the ConfigScanner
     class used to manage configurations specific to the CNSpec scanner.

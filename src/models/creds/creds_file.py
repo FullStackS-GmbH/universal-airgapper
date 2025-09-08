@@ -1,5 +1,3 @@
-from typing import List, Optional
-
 from pydantic import BaseModel, Field
 
 from models.creds.creds_git_repo import CredsGitRepo
@@ -9,8 +7,7 @@ from models.creds.creds_scanner import CredsScanner
 
 
 class CredsFile(BaseModel):
-    """
-    Represents a data structure to manage and store different types of credentials.
+    """Represents a data structure to manage and store different types of credentials.
 
     The CredsFile class provides a cohesive structure for organizing and accessing
     credentials related to scanners, image registries, Helm repositories, and Git
@@ -26,7 +23,7 @@ class CredsFile(BaseModel):
         git (Optional[List[CredsGitRepo]]): A list of Git repository credentials.
     """
 
-    scanners: Optional[List[CredsScanner]] = Field(default_factory=list)
-    image: Optional[List[CredsImageRegistry]] = Field(default_factory=list)
-    helm: Optional[List[CredsHelmRegistry]] = Field(default_factory=list)
-    git: Optional[List[CredsGitRepo]] = Field(default_factory=list)
+    scanners: list[CredsScanner] | None = Field(default_factory=list)
+    image: list[CredsImageRegistry] | None = Field(default_factory=list)
+    helm: list[CredsHelmRegistry] | None = Field(default_factory=list)
+    git: list[CredsGitRepo] | None = Field(default_factory=list)

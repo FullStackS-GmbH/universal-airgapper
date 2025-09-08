@@ -2,8 +2,7 @@ from pydantic import BaseModel, Field
 
 
 class CredsHelmRegistry(BaseModel):
-    """
-    Represents credentials for a Helm registry.
+    """Represents credentials for a Helm registry.
 
     This class is used to store and validate the credentials required for
     authenticating with a Helm registry. It includes fields for the registry

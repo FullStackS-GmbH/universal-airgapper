@@ -4,8 +4,7 @@ from pydantic import BaseModel, Field
 
 
 class ConfigGitRepo(BaseModel):
-    """
-    Represents the configuration for a Git repository operation.
+    """Represents the configuration for a Git repository operation.
 
     This class is used to define attributes and settings specific to a Git
     repository. It includes source and target repository details, push modes,

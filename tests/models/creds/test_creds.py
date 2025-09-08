@@ -21,11 +21,7 @@ def test_creds_initialization_with_valid_creds():
         helm=[CredsHelmRegistry(name="helm1", username="user1", password="pass1")],
         image=[CredsImageRegistry(name="image1", username="user2", password="pass2")],
         git=[CredsGitRepo(name="git1", username="user3", password="pass3")],
-        scanners=[
-            CredsScanner(
-                name="scanner1", type="snyk", username="user4", password="pass4"
-            )
-        ],
+        scanners=[CredsScanner(name="scanner1", type="snyk", username="user4", password="pass4")],
     )
     creds = Creds(creds_file)
 
@@ -60,9 +56,7 @@ def test_creds_duplicate_handling():
 
 
 def test_get_git_creds_existing():
-    creds_file = CredsFile(
-        git=[CredsGitRepo(name="git1", username="user1", password="pass1")]
-    )
+    creds_file = CredsFile(git=[CredsGitRepo(name="git1", username="user1", password="pass1")])
     creds = Creds(creds_file)
 
     git_creds = creds.get_git_creds("git1")
@@ -82,11 +76,7 @@ def test_get_git_creds_non_existing():
 
 def test_get_scanner_creds_existing():
     creds_file = CredsFile(
-        scanners=[
-            CredsScanner(
-                name="scanner1", type="snyk", username="user1", password="pass1"
-            )
-        ]
+        scanners=[CredsScanner(name="scanner1", type="snyk", username="user1", password="pass1")]
     )
     creds = Creds(creds_file)
 

@@ -7,9 +7,8 @@ import yaml
 from models.creds.creds_file import CredsFile
 
 
-def load_credentials_file(i_cred_file: str = None) -> CredsFile:
-    """
-    Loads a single credentials file and returns its contents as a CredsFile object.
+def load_credentials_file(i_cred_file: str | None = None) -> CredsFile:
+    """Loads a single credentials file and returns its contents as a CredsFile object.
 
     This function processes a provided YAML file containing credential data. It checks
     the existence of the file, reads its content, and converts the data into
@@ -31,15 +30,14 @@ def load_credentials_file(i_cred_file: str = None) -> CredsFile:
         logging.error(f"Credentials file not found: {i_cred_file}")
         sys.exit(1)
 
-    with open(i_cred_file, "r", encoding="utf-8") as f:
+    with open(i_cred_file, encoding="utf-8") as f:
         d_creds = yaml.safe_load(f)
         creds_file = CredsFile(**d_creds)
         return creds_file
 
 
-def load_credentials_folder(i_cred_folder: str = None) -> CredsFile:
-    """
-    Load and merge all YAML files from a specified credentials folder.
+def load_credentials_folder(i_cred_folder: str | None = None) -> CredsFile:
+    """Load and merge all YAML files from a specified credentials folder.
 
     This function iterates through the specified credentials folder, reads all
     the YAML files present in it, and merges their contents into a single
@@ -66,7 +64,7 @@ def load_credentials_folder(i_cred_folder: str = None) -> CredsFile:
     for filename in os.listdir(i_cred_folder):
         if filename.endswith(".yaml") or filename.endswith(".yml"):
             file_path = os.path.join(i_cred_folder, filename)
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 d_creds = yaml.safe_load(f)
                 local_creds_file = CredsFile(**d_creds)
                 creds_file.image.extend(local_creds_file.image)

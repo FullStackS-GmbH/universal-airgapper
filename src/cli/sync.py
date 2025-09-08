@@ -10,8 +10,7 @@ from models.scanner.scanners import Scanners
 
 
 def sync(creds_file: CredsFile, config_file: ConfigFile) -> RC:
-    """
-    Synchronizes resources specified in a configuration file using credentials.
+    """Synchronizes resources specified in a configuration file using credentials.
 
     This function takes a credentials file and a configuration file as input.
     The configuration file specifies the resources to synchronize, which may include

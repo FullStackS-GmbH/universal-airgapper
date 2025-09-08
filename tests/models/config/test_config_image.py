@@ -17,15 +17,11 @@ def test_config_image_valid_data():
 
 
 def test_config_image_optional_scan():
-    config = ConfigImage(
-        type="docker", source="source_path", target="target_path", tags=["latest"]
-    )
+    config = ConfigImage(type="docker", source="source_path", target="target_path", tags=["latest"])
     assert config.scan == ""
     assert config.tags == ["latest"]
 
 
 def test_config_image_empty_tags():
-    config = ConfigImage(
-        type="docker", source="source_path", target="target_path", tags=[]
-    )
+    config = ConfigImage(type="docker", source="source_path", target="target_path", tags=[])
     assert config.tags == []

@@ -3,8 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class RC:
-    """
-    Represents a response code with various attributes indicating the state,
+    """Represents a response code with various attributes indicating the state,
     messages, and related information.
 
     This data class is used to encapsulate the response status that can include
@@ -32,8 +31,7 @@ class RC:
 
 
 def print_rc(rc: RC):
-    """
-    Prints the synchronization status of RC entities grouped by their type.
+    """Prints the synchronization status of RC entities grouped by their type.
 
     This function processes the given RC object, which contains a collection
     of entities, each having attributes such as type, synchronization count,
@@ -70,6 +68,6 @@ def print_rc(rc: RC):
     for _type, _info in status.items():
         print(f"{_type} - ok:{_info['ok']['cnt']} nok:{_info['nok']['cnt']}")
         for entity in _info["ok"]["items"]:
-            print(f" [OK] - {str(entity.ref)}")
+            print(f" [OK] - {entity.ref!s}")
         for entity in _info["nok"]["items"]:
-            print(f" [NOK]- {str(entity.ref)} : {str(entity.msg)}")
+            print(f" [NOK]- {entity.ref!s} : {entity.msg!s}")

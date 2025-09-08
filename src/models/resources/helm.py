@@ -2,8 +2,7 @@ from models.config.config_helm_chart import ConfigHelmChart
 
 
 class HelmChart:
-    """
-    Represents a Helm Chart and its associated metadata.
+    """Represents a Helm Chart and its associated metadata.
 
     This class encapsulates information about a Helm Chart, providing properties for
     managing chart sources, target repositories, versions, and push modes. It can be
@@ -29,7 +28,7 @@ class HelmChart:
 
     @property
     def chart_name(self):
-        """get chart name"""
+        """Get chart name."""
         if "/" in self.source:
             return self.source.split("/")[-1]
         return self.source
