@@ -57,7 +57,8 @@ def main():
     """
     parser = create_parser()
     args = parser.parse_args()
-    validate_arguments(args)
+    if not validate_arguments(args, parser):
+        sys.exit(1)
 
     setup_logging(args.debug)
     if args.credentials_file:
@@ -75,8 +76,8 @@ def main():
         print_rc(rc)
         if not rc.ok:
             sys.exit(1)
-    except Exception as e:
-        logging.exception(f"Error: {e!s}")
+    except Exception:
+        logging.exception("Global Error")
         sys.exit(1)
 
 

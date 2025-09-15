@@ -54,7 +54,7 @@ class ScannerSnyk(Scanner):
             env["SNYK_API"] = self.endpoint
             result = subprocess.run(
                 [
-                    "snyk",
+                    "/usr/local/bin/snyk",
                     "container",
                     "test",
                     f"{image.source}:{tag}",
