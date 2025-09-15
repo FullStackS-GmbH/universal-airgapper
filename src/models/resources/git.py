@@ -4,8 +4,7 @@ from models.config.config_git_repo import ConfigGitRepo
 
 
 class GitRepo:
-    """
-    Represents a Git repository and provides utilities for managing repository details.
+    """Represents a Git repository and provides utilities for managing repository details.
 
     This class serves as a representation of a Git repository, initialized with
     configuration details provided by a `ConfigGitRepo` object. It also includes
@@ -29,19 +28,20 @@ class GitRepo:
 
     @property
     def source_repo_host(self) -> str:
-        """get source repo hostname"""
+        """Get source repo hostname."""
         return self._get_repo_hostname(self.source_repo)
 
     @property
     def target_repo_host(self) -> str:
-        """get target repo hostname"""
+        """Get target repo hostname."""
         return self._get_repo_hostname(self.target_repo)
 
     @staticmethod
     def _get_repo_hostname(repo_url: str) -> str:
-        """
-        Retrieves the hostname of a repository from a given repository URL. It handles various URL
-        formats such as HTTP, HTTPS, and SSH. In case of an invalid URL, it returns an empty string.
+        """Retrieves the hostname of a repository from a given repository URL. It handles various
+        URL formats such as HTTP, HTTPS, and SSH. In case of an invalid URL, it returns an empty
+        string.
+
         The function is implemented as a static method for reusable purposes without requiring an
         instance of a class.
 

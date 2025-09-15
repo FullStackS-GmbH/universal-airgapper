@@ -45,7 +45,10 @@ def test_creds_file_with_helm_registries():
 
 def test_creds_file_with_git_repos():
     git_repo = CredsGitRepo(
-        name="Repo1", ssh_key_path="/path/to/key", username="git_user", password="git_pass"
+        name="Repo1",
+        ssh_key_path="/path/to/key",
+        username="git_user",
+        password="git_pass",
     )
     creds_file = CredsFile(git=[git_repo])
     assert len(creds_file.git) == 1

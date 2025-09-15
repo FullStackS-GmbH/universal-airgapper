@@ -10,8 +10,7 @@ from models.resources.helm import HelmChart
 
 
 def sync_chart(chart_config: ConfigHelmChart, credentials: Creds) -> RC:
-    """
-    Synchronizes a Helm chart with specified configurations and credentials, processing
+    """Synchronizes a Helm chart with specified configurations and credentials, processing
     chart versions and determining their synchronization results.
 
     Args:
@@ -70,8 +69,7 @@ def _sync_chart_version(
     chart: HelmChart,
     creds: Creds,
 ) -> RC:
-    """
-    Synchronizes a Helm chart version between source and target registries.
+    """Synchronizes a Helm chart version between source and target registries.
 
     This function handles the process of ensuring that the specified Helm chart
     exists in the target registry by pulling the Helm chart from the source

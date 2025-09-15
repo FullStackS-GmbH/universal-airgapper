@@ -2,9 +2,8 @@ from models.config.config_image import ConfigImage
 
 
 class Image:
-    """
-    Represents an image configuration object by encapsulating information about the image's source,
-    target, scan details, and tags.
+    """Represents an image configuration object by encapsulating information about the image's
+    source, target, scan details, and tags.
 
     This class provides mechanisms to parse image names into meaningful components such as registry,
     repository, and tag. It also enables access to parsed attributes for both the source and target
@@ -38,38 +37,37 @@ class Image:
 
     @property
     def source_registry(self):
-        """get source registry"""
+        """Get source registry."""
         return self.__parse_image_name(self.source)[0]
 
     @property
     def target_registry(self):
-        """get target registry"""
+        """Get target registry."""
         return self.__parse_image_name(self.target)[0]
 
     @property
     def source_repo(self):
-        """get source repo"""
+        """Get source repo."""
         return self.__parse_image_name(self.source)[1]
 
     @property
     def target_repo(self):
-        """get source target"""
+        """Get source target."""
         return self.__parse_image_name(self.target)[1]
 
     @property
     def source_name(self):
-        """get source chart name"""
+        """Get source chart name."""
         return self.__parse_image_name(self.source)[2]
 
     @property
     def target_name(self):
-        """get target chart name"""
+        """Get target chart name."""
         return self.__parse_image_name(self.target)[2]
 
     @staticmethod
     def __parse_image_name(image_name: str):
-        """
-        Parses a given Docker image name into its components: registry, repository, and tag.
+        """Parses a given Docker image name into its components: registry, repository, and tag.
 
         The method separates the Docker image name provided into its constituent
         parts, determining whether the registry is explicitly specified or if

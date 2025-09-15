@@ -2,7 +2,7 @@
   description = "Airgapper dev environment";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -15,15 +15,14 @@
           buildInputs = [
             pkgs.python312
             pkgs.python312Packages.pip
-            pkgs.poetry
+            pkgs.uv
           ];
           shellHook = ''
             export AIRGAPPER_CONFIG=$(pwd)/config.yaml
             export AIRGAPPER_CREDS=$(pwd)/creds
             export PYTHONPATH=$(pwd)
-            poetry config virtualenvs.in-project true
             if [ -f pyproject.toml ]; then
-              poetry install --no-root
+              uv sync --frozen
             fi
           '';
         };

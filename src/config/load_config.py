@@ -8,8 +8,7 @@ from models.config.config_file import ConfigFile
 
 
 def load_config_file(config_file: str) -> ConfigFile:
-    """
-    Loads a configuration file and parses it into a ConfigFile object.
+    """Loads a configuration file and parses it into a ConfigFile object.
 
     This function opens the specified configuration file, reads its
     contents, parses them using YAML, and initializes a ConfigFile object
@@ -28,7 +27,7 @@ def load_config_file(config_file: str) -> ConfigFile:
         yaml.YAMLError: If there is an error while parsing the YAML file.
     """
     logging.info(f"loading config file: {config_file}")
-    with open(config_file, "r", encoding="utf-8") as f:
+    with open(config_file, encoding="utf-8") as f:
         d_config = yaml.safe_load(f)
         if not d_config:
             logging.warning("config file empty!")
@@ -38,8 +37,7 @@ def load_config_file(config_file: str) -> ConfigFile:
 
 
 def load_config_folder(config_folder: str) -> ConfigFile:
-    """
-    Loads and merges configuration files from a specified folder. This function reads
+    """Loads and merges configuration files from a specified folder. This function reads
     all YAML files in a given directory, parses their content, and merges the
     data into a single ConfigFile object. If the folder does not exist, the program
     will log an error message and terminate.
@@ -66,7 +64,7 @@ def load_config_folder(config_folder: str) -> ConfigFile:
             file_path = os.path.join(config_folder, filename)
             logging.info(f"loading config file: {filename}")
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     d_local_config = yaml.safe_load(f)
                     if not d_local_config:
                         logging.warning("config file empty!")
@@ -75,6 +73,6 @@ def load_config_folder(config_folder: str) -> ConfigFile:
                     tmp_config["scanners"].extend(local_config_file.scanners)
                     tmp_config["resources"].extend(local_config_file.resources)
             except Exception as e:
-                logging.error(f"Error loading config file {filename}")
+                logging.exception(f"Error loading config file {filename}")
                 raise e
     return ConfigFile(**tmp_config)

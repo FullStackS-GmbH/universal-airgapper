@@ -2,7 +2,7 @@ import hashlib
 import json
 import logging
 import os
-from typing import Dict, Literal, Optional
+from typing import Literal
 
 import requests
 
@@ -15,13 +15,12 @@ RepoType = Literal["oci", "nexus"]
 def push_helm_chart(
     chart_path: str,
     repo_url: str,
-    repo_type: Optional[RepoType] = None,
-    repo_path: Optional[str] = None,
-    headers: Optional[dict] = None,
+    repo_type: RepoType | None = None,
+    repo_path: str | None = None,
+    headers: dict | None = None,
     cleanup_chart: bool = True,
 ) -> RC:
-    """
-    Pushes a Helm chart to a specified repository.
+    """Pushes a Helm chart to a specified repository.
 
     This function handles the process of uploading a Helm chart from a .tgz file to a
     repository. It supports different repository types and can optionally clean up
@@ -47,7 +46,11 @@ def push_helm_chart(
         return RC(ok=False, type="helm", msg=f"Chart file not found at {chart_path}")
 
     if not chart_path.endswith(".tgz"):
-        return RC(ok=False, type="helm", msg=f"Chart file must be a .tgz archive, got {chart_path}")
+        return RC(
+            ok=False,
+            type="helm",
+            msg=f"Chart file must be a .tgz archive, got {chart_path}",
+        )
 
     # Extract chart metadata
     chart_info = extract_chart_info(chart_path)
@@ -72,12 +75,11 @@ def push_helm_chart(
 def _push_nexus_chart(
     chart_path: str,
     repo_path: str,
-    chart_info: Dict[str, str],
+    chart_info: dict[str, str],
     repo_url: str,
-    headers: Dict[str, str],
+    headers: dict[str, str],
 ) -> RC:
-    """
-    Pushes a Helm chart to a Nexus repository.
+    """Pushes a Helm chart to a Nexus repository.
 
     This function uploads a Helm chart `.tgz` file to a Nexus repository using
     the provided repository URL and headers for authentication.
@@ -112,7 +114,7 @@ def _push_nexus_chart(
             response.raise_for_status()
     except requests.RequestException as e:
         msg = f"Error pushing chart to Nexus repository: {e}"
-        logging.error(msg)
+        logging.exception(msg)
         return RC(ok=False, err=True, type="helm", msg=msg)
 
     return RC(
@@ -125,13 +127,12 @@ def _push_nexus_chart(
 
 def _push_oci_chart(
     chart_path: str,
-    chart_info: Dict[str, str],
+    chart_info: dict[str, str],
     repo_url: str,
-    headers: Dict[str, str],
-    repo_path: Optional[str] = None,
+    headers: dict[str, str],
+    repo_path: str | None = None,
 ) -> RC:
-    """
-    Pushes a Helm chart to an OCI-compliant image repository.
+    """Pushes a Helm chart to an OCI-compliant image repository.
 
     This function uploads a Helm chart to an OCI-compliant image repository
     at a specified URL. It involves calculating the chart's digest, creating
@@ -243,7 +244,7 @@ def _push_oci_chart(
         response.raise_for_status()
     except requests.RequestException as e:
         msg = f"Error pushing chart to OCI repository: {e}"
-        logging.error(msg)
+        logging.exception(msg)
         return RC(ok=False, type="helm", msg=msg)
 
     return RC(

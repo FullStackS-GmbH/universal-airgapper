@@ -2,7 +2,7 @@ import base64
 import json
 import logging
 import os
-from typing import List, Literal, Union
+from typing import Literal
 
 from models.creds.creds_file import CredsFile
 from models.creds.creds_git_repo import CredsGitRepo
@@ -15,8 +15,7 @@ ScannerCredType = Literal["neuvector", "snyk", "cnspec"]
 
 
 class Creds:
-    """
-    Handles storage and retrieval of various types of credentials for different services.
+    """Handles storage and retrieval of various types of credentials for different services.
 
     This class is responsible for managing credentials grouped by type, such as image,
     helm, git repositories, and scanner credentials. Each credential is validated to
@@ -37,10 +36,10 @@ class Creds:
     """
 
     def __init__(self, creds_file: CredsFile):
-        self.helm_creds: List[CredsHelmRegistry] = []
-        self.image_creds: List[CredsImageRegistry] = []
-        self.git_creds: List[CredsGitRepo] = []
-        self.scanner_creds: List[CredsScanner] = []
+        self.helm_creds: list[CredsHelmRegistry] = []
+        self.image_creds: list[CredsImageRegistry] = []
+        self.git_creds: list[CredsGitRepo] = []
+        self.scanner_creds: list[CredsScanner] = []
 
         for cred in creds_file.image:
             if self.__is_duplicate(cred):
@@ -76,8 +75,7 @@ class Creds:
             )
 
     def write_docker_config(self, registry, username, password, config_path="/tmp/config.json"):
-        """
-        Create or update a Docker `config.json` file with authentication credentials.
+        """Create or update a Docker `config.json` file with authentication credentials.
 
         This method ensures the directory for the Docker config exists, sets the
         `DOCKER_CONFIG` environment variable to point to that directory, and writes
@@ -117,7 +115,7 @@ class Creds:
 
         # Load existing config if it exists
         if os.path.exists(config_path):
-            with open(config_path, "r", encoding="utf-8") as f:
+            with open(config_path, encoding="utf-8") as f:
                 try:
                     config = json.load(f)
                 except json.JSONDecodeError:
@@ -138,26 +136,25 @@ class Creds:
         print(f"Credentials for '{registry}' written to {config_path}")
 
     def get_git_creds(self, name) -> CredsImageRegistry:
-        """get git creds"""
+        """Get git creds."""
         return self._get_creds("git", name)
 
     def get_image_creds(self, name) -> CredsImageRegistry:
-        """get image registry creds"""
+        """Get image registry creds."""
         return self._get_creds("image", name)
 
     def get_helm_creds(self, name) -> CredsHelmRegistry:
-        """get helm registry creds"""
+        """Get helm registry creds."""
         return self._get_creds("helm", name)
 
     def get_scanner_creds(self, scanner_type: ScannerCredType, name: str) -> CredsScanner:
-        """get scanner creds"""
+        """Get scanner creds."""
         return self._get_creds(scanner_type, name)
 
     def _get_creds(
         self, cred_type: CredType, name: str
-    ) -> Union[CredsHelmRegistry, CredsImageRegistry, CredsGitRepo, CredsScanner]:
-        """
-        Retrieves the credentials of a specified type and name from the available credential
+    ) -> CredsHelmRegistry | CredsImageRegistry | CredsGitRepo | CredsScanner:
+        """Retrieves the credentials of a specified type and name from the available credential
         lists. If no matching credentials are found, a default credential object is returned.
 
         Args:
@@ -207,9 +204,8 @@ class Creds:
             case _:
                 raise ValueError(f"Unknown credential type: {cred_type}")
 
-    def __is_duplicate(self, cred: Union[CredsHelmRegistry, CredsImageRegistry, CredsGitRepo]):
-        """
-        Determines whether a given credential already exists within its corresponding
+    def __is_duplicate(self, cred: CredsHelmRegistry | CredsImageRegistry | CredsGitRepo):
+        """Determines whether a given credential already exists within its corresponding
         list of credentials.
 
         Args:

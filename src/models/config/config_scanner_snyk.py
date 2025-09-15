@@ -6,8 +6,7 @@ from models.config.config_scanner import ConfigScanner
 
 
 class ConfigSnykScanner(ConfigScanner):
-    """
-    Represents configuration settings for a Snyk Endpoint scanner.
+    """Represents configuration settings for a Snyk Endpoint scanner.
 
     This class extends the base ConfigScanner class to define specific
     configuration parameters necessary for interacting with the Snyk Endpoint

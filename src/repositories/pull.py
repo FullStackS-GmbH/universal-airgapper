@@ -13,12 +13,11 @@ def clone_repo_ref(
     repo_url: str,
     ref: str,
     target_path: str,
-    username: str = None,
-    password: str = None,
-    ssh_key_path: str = None,
+    username: str | None = None,
+    password: str | None = None,
+    ssh_key_path: str | None = None,
 ) -> RC:
-    """
-    Clones a specific reference (branch, tag, or commit) from a Git repository and stores
+    """Clones a specific reference (branch, tag, or commit) from a Git repository and stores
     it in the specified target path.
 
     This function supports both SSH and HTTPS authentication for cloning repositories.
@@ -63,28 +62,31 @@ def clone_repo_ref(
                 logging.error(msg)
                 return RC(ok=False, msg=msg)
             os.environ["GIT_SSH_COMMAND"] = f"ssh -i {ssh_key_path}"
-        else:
-            if username and password:
-                if username == "AzureReposAuthnSucks":
-                    git_options.append(f"--config-env=http.extraheader={password}")
-                else:
-                    logging.debug(f"using username [{username}] and password for HTTPS auth")
-                    # Use Git credential environment variable for authentication
-                    url_parts = repo_url.split("://")
-                    repo_url = f"{url_parts[0]}://{username}:{password}@{url_parts[1]}"
-            elif username or password:
-                msg = "Both username and password are required for HTTPS authentication"
-                logging.error(msg)
-                return RC(ok=False, msg=msg)
+        elif username and password:
+            if username == "AzureReposAuthnSucks":
+                git_options.append(f"--config-env=http.extraheader={password}")
+            else:
+                logging.debug(f"using username [{username}] and password for HTTPS auth")
+                # Use Git credential environment variable for authentication
+                url_parts = repo_url.split("://")
+                repo_url = f"{url_parts[0]}://{username}:{password}@{url_parts[1]}"
+        elif username or password:
+            msg = "Both username and password are required for HTTPS authentication"
+            logging.error(msg)
+            return RC(ok=False, msg=msg)
 
         # Clone the repository
         repo = git.Repo.clone_from(
-            repo_url, target_path, branch=ref, single_branch=True, multi_options=git_options
+            repo_url,
+            target_path,
+            branch=ref,
+            single_branch=True,
+            multi_options=git_options,
         )
 
         return RC(ok=True, entity=repo)
 
     except GitCommandError as e:
-        msg = f"Failed to clone repository: {str(e.stderr)}"
-        logging.error(msg)
+        msg = f"Failed to clone repository: {e.stderr!s}"
+        logging.exception(msg)
         return RC(ok=False, msg=msg)

@@ -10,8 +10,7 @@ from models.scanner.scanners import Scanners
 
 
 def sync_image(image: Image, credentials: Creds, scanners: Scanners) -> RC:
-    """
-    Synchronizes a container image with associated tags by validating scanning
+    """Synchronizes a container image with associated tags by validating scanning
     configurations and performing scan and sync operations. The function processes
     each tag of a Docker image sequentially, scans the image, and attempts to
     synchronize if scanning is successful. Returns a comprehensive result object
@@ -58,7 +57,7 @@ def sync_image(image: Image, credentials: Creds, scanners: Scanners) -> RC:
             password=tgt_creds.password,
         )
         image_exists = _rc.ok
-        logging.debug(f"image exists [{str(_rc.ok)}]: {_rc.msg}")
+        logging.debug(f"image exists [{_rc.ok!s}]: {_rc.msg}")
         _rc.sync_cnt = True
         _rc.type = "docker"
         _rc.ref = f"{image.source}:{tag}"
@@ -83,7 +82,7 @@ def sync_image(image: Image, credentials: Creds, scanners: Scanners) -> RC:
                         name=image.source_registry
                     ).password,
                 )
-                logging.debug(f"scanning ok [{str(scan_rc.ok)}]: {scan_rc.msg}")
+                logging.debug(f"scanning ok [{scan_rc.ok!s}]: {scan_rc.msg}")
                 image_okay = scan_rc.ok
                 if not scan_rc.ok:
                     _rc.ok = False
@@ -99,7 +98,7 @@ def sync_image(image: Image, credentials: Creds, scanners: Scanners) -> RC:
                     _rc.msg = sync_rc.msg
                 else:
                     _rc.msg = f"synced tag: {image.source}:{tag}"
-                logging.debug(f"sync finished [{str(sync_rc.ok)}]: {sync_rc.msg}")
+                logging.debug(f"sync finished [{sync_rc.ok!s}]: {sync_rc.msg}")
                 _rc.ok = sync_rc.ok
         else:
             _rc.msg = f"skipping tag - already exists: {image.source}:{tag}"
@@ -115,8 +114,7 @@ def sync_image(image: Image, credentials: Creds, scanners: Scanners) -> RC:
 
 
 def _sync_image_tag(image: Image, tag: str, credentials: Creds) -> RC:
-    """
-    Synchronizes a specific image tag between a source and target container registry.
+    """Synchronizes a specific image tag between a source and target container registry.
 
     This function checks if the specified image tag exists in the target registry.
     If it doesn't exist, it pulls the image from the source registry to a local

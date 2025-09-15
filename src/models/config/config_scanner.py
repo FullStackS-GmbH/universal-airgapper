@@ -4,8 +4,7 @@ from pydantic import BaseModel, Field
 
 
 class ConfigScanner(BaseModel):
-    """
-    Represents a configuration model for a security scanner.
+    """Represents a configuration model for a security scanner.
 
     This class defines the configuration attributes for different types of security
     scanning tools. It allows specifying the scanner's name, type, and customizable

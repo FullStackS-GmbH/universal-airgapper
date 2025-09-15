@@ -18,8 +18,7 @@ def print_version():
 
 
 def setup_logging(debug: bool) -> None:
-    """
-    Configures the logging setup for the application. Adjusts the logging level based
+    """Configures the logging setup for the application. Adjusts the logging level based
     on whether debugging is enabled or not. When debugging, the logging level is set
     to DEBUG; otherwise, it defaults to INFO. Logging messages will include timestamps,
     module names, log level, and the message content.
@@ -45,8 +44,7 @@ def setup_logging(debug: bool) -> None:
 
 
 def main():
-    """
-    Main script entry point.
+    """Main script entry point.
 
     This function initiates the main workflow for the application. It handles
     parsing of command-line arguments, setting up logging, loading user
@@ -78,7 +76,7 @@ def main():
         if not rc.ok:
             sys.exit(1)
     except Exception as e:
-        logging.error(f"Error: {str(e)}")
+        logging.exception(f"Error: {e!s}")
         sys.exit(1)
 
 

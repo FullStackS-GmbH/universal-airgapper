@@ -1,7 +1,7 @@
 import logging
 import os
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Literal
 
 from git import Repo
 
@@ -15,41 +15,43 @@ def push_repo_ref(
     remote_url: str,
     ref: str,
     push_mode: PushMode = "push",
-    username: Optional[str] = None,
-    password: Optional[str] = None,
-    ssh_key_path: Optional[str] = None,
+    username: str | None = None,
+    password: str | None = None,
+    ssh_key_path: str | None = None,
 ) -> RC:
-    """
-    Handles pushing a specific Git reference from a local repository to a remote repository using
-    different modes and optional authentication methods.
+    """Handles pushing a specific Git reference from a local repository to a remote
+    repository using different modes and optional authentication methods.
 
     Args:
-        local_repo_path (str | Path): The local repository path from which the reference should be
-            pushed. This can be a string path or a Path object.
-        remote_url (str): URL of the remote repository to which the reference will be pushed.
+        local_repo_path (str | Path): The local repository path from which the reference
+            should be pushed. This can be a string path or a Path object.
+        remote_url (str): URL of the remote repository to which the reference will be
+            pushed.
         ref (str): The name of the reference (branch or tag) to be pushed.
-        push_mode (PushMode, optional): Determines how the reference is pushed. defaults to "push".
+        push_mode (PushMode, optional): Determines how the reference is pushed.
+            defaults to "push".
             If set to "push", the reference is pushed normally.
             If "force", it overrides any existing remote reference.
             If "skip", the push will be skipped if the reference already exists.
         username (Optional[str], optional): Username for HTTPS-based authentication.
             Required only if the `remote_url` uses HTTPS without a pre-configured
             authentication method.
-        password (Optional[str], optional): Password for HTTPS-based authentication, required along
-            with `username`. An optional environment variable name can also be provided for advanced
-            authentication configurations.
+        password (Optional[str], optional): Password for HTTPS-based authentication,
+            required along with `username`. An optional environment variable name can
+            also be provided for advanced authentication configurations.
         ssh_key_path (Optional[str], optional):
             Path to the SSH private key used for SSH-based authentication.
             Required only if the `remote_url` uses SSH and an explicit key is needed.
 
     Returns:
-        RC: A result object summarizing the outcome of the push. Contains `ok` (bool) indicating
-            success or failure, a `message` (str) detailing the result, and `ref` (str) specifying
-            the pushed reference.
+        RC: A result object summarizing the outcome of the push. Contains `ok` (bool)
+            indicating success or failure, a `message` (str) detailing the result,
+            and `ref` (str) specifying the pushed reference.
 
     Raises:
-        Exception: If an error occurs during the push process, it is caught and logged, and the
-            function returns a failure `RC` instance instead of propagating the error.
+        Exception: If an error occurs during the push process, it is caught and logged,
+        and the function returns a failure `RC` instance instead of propagating the
+        error.
     """
     try:
         # Convert path to Path object
@@ -107,6 +109,6 @@ def push_repo_ref(
         return RC(ok=True, ref=ref)
 
     except Exception as e:
-        msg = f"Error pushing to remote: {str(e)}"
-        logging.error(msg)
+        msg = f"Error pushing to remote: {e!s}"
+        logging.exception(msg)
         return RC(ok=False, msg=msg, ref=ref)

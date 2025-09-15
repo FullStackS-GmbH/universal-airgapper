@@ -2,8 +2,7 @@ from pydantic import BaseModel, Field
 
 
 class CredsScanner(BaseModel):
-    """
-    Represents a credential scanner model.
+    """Represents a credential scanner model.
 
     This class is used to store the details of credentials such as name, type,
     username, and password. Each field has specific validation requirements

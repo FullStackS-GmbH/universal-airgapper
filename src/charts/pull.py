@@ -1,7 +1,6 @@
 import os
 import tarfile
 import tempfile
-from typing import Dict, Optional
 
 import requests
 import yaml
@@ -15,10 +14,9 @@ def pull_helm_chart(
     version: str,
     registry_url: str,
     output_dir: str,
-    headers: Optional[Dict[str, str]] = None,
+    headers: dict[str, str] | None = None,
 ) -> RC:
-    """
-    Pulls a Helm chart from either an OCI registry or a traditional registry based on the
+    """Pulls a Helm chart from either an OCI registry or a traditional registry based on the
     registry type and saves it in the specified output directory.
 
     This function determines whether the given registry is an OCI type or a traditional
@@ -54,10 +52,9 @@ def _pull_traditional_chart(
     version: str,
     repo_url: str,
     output_dir: str,
-    headers: Dict[str, str],
+    headers: dict[str, str],
 ) -> RC:
-    """
-    Fetches and saves a Helm chart from a specified repository.
+    """Fetches and saves a Helm chart from a specified repository.
 
     This function retrieves a specified Helm chart in a particular version from
     a given Helm repository URL. The chart is downloaded and stored locally in
@@ -129,10 +126,9 @@ def _pull_oci_chart(
     version: str,
     repo_url: str,
     output_dir: str,
-    headers: Dict[str, str],
+    headers: dict[str, str],
 ) -> RC:
-    """
-    Pulls an OCI-compliant Helm chart from a remote OCI registry and assembles it into a
+    """Pulls an OCI-compliant Helm chart from a remote OCI registry and assembles it into a
     compressed tarball archive saved to the specified output directory.
 
     Args:

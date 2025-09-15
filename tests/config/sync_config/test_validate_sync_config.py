@@ -48,7 +48,7 @@
 # def test_validate_sync_config_invalid_type():
 #     invalid_config = {
 #         "resources": [
-#             {"type": "invalid_type", "source": "my_source", "destination": "my_destination"}
+#             {"type": "invalid_type", "source": "my_source", "destination": "my_destination"}  # noqa: E501
 #         ]
 #     }
 #     assert _validate_sync_config(invalid_config) is False

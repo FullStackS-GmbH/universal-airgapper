@@ -6,8 +6,7 @@ from models.config.config_scanner import ConfigScanner
 
 
 class ConfigNeuvectorScanner(ConfigScanner):
-    """
-    Represents a configuration for the NeuVector scanner.
+    """Represents a configuration for the NeuVector scanner.
 
     This class inherits from ConfigScanner and is designed to store configuration
     parameters specifically for the NeuVector vulnerability scanner. It defines

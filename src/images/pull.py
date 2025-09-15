@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-from typing import Optional
 
 import requests
 
@@ -21,12 +20,11 @@ def pull_container_image(
     tag: str,
     architecture: str = "amd64",
     registry: str = "registry-1.docker.io",
-    username: Optional[str] = None,
-    password: Optional[str] = None,
+    username: str | None = None,
+    password: str | None = None,
     output_dir: str = "./images",
 ) -> RC:
-    """
-    Pulls a container image from a specified container registry, authenticates if necessary,
+    """Pulls a container image from a specified container registry, authenticates if necessary,
     fetches its manifest, and downloads the image layers and configuration.
 
     :param image_name: The name of the container image to pull.
@@ -85,7 +83,7 @@ def pull_container_image(
         manifest = _fetch_manifest(manifest_url, headers)
     except requests.exceptions.RequestException as e:
         msg = f"could not fetch image manifest for {image_name}:{tag} from {registry} -> {e}"
-        logging.error(msg)
+        logging.exception(msg)
         return RC(ok=False, msg=msg)
 
     # Handle multi-arch manifests
@@ -119,7 +117,7 @@ def pull_container_image(
             logging.debug(f"Layer {i}/{len(manifest['layers'])} downloaded: {layer['digest']}")
     except requests.exceptions.RequestException as e:
         msg = f"could not fetch image layer {image_name}:{tag} from {registry} -> {e}"
-        logging.error(msg)
+        logging.exception(msg)
         return RC(ok=False, msg=msg)
 
     # Download config blob
@@ -129,7 +127,7 @@ def pull_container_image(
             _download_blob(manifest["config"]["digest"], registry, image_name, headers, config_path)
     except requests.exceptions.RequestException as e:
         msg = f"could not fetch config manifest for {image_name}:{tag} from {registry} -> {e}"
-        logging.error(msg)
+        logging.exception(msg)
         return RC(ok=False, msg=msg)
 
     msg = f"Image pull completed successfully to: {output_dir}"
@@ -138,10 +136,9 @@ def pull_container_image(
 
 
 def _authenticate_with_registry(
-    registry: str, image_name: str, username: Optional[str], password: Optional[str]
+    registry: str, image_name: str, username: str | None, password: str | None
 ) -> dict:
-    """
-    Authenticate with a container image registry.
+    """Authenticate with a container image registry.
 
     This function generates authorization headers required for fetching
     container image manifests. It supports both Docker Hub authentication
@@ -189,8 +186,8 @@ def _authenticate_with_registry(
     """
     headers = {
         "Accept": ",".join(
-            SUPPORTED_MANIFEST_TYPES
-            + [
+            [
+                *SUPPORTED_MANIFEST_TYPES,
                 "application/vnd.oci.image.index.v1+json",
                 "application/vnd.docker.distribution.manifest.list.v2+json",
             ]
@@ -207,8 +204,7 @@ def _authenticate_with_registry(
 
 
 def _fetch_manifest(manifest_url: str, headers: dict) -> dict:
-    """
-    Fetches a manifest from a provided URL using HTTP GET request.
+    """Fetches a manifest from a provided URL using HTTP GET request.
 
     The function sends a GET request to the specified `manifest_url`, including
     any headers provided. It then validates the HTTP response for errors and
@@ -241,8 +237,7 @@ def _fetch_manifest(manifest_url: str, headers: dict) -> dict:
 def _select_matching_manifest(
     manifest: dict, architecture: str, registry: str, image_name: str, headers: dict
 ) -> dict:
-    """
-    Selects and returns a matching image manifest based on the given architecture.
+    """Selects and returns a matching image manifest based on the given architecture.
 
     This function processes a multi-architecture manifest and retrieves the first
     sub-manifest that corresponds to the specified architecture. A sub-manifest is
@@ -302,7 +297,7 @@ def _download_blob(
     image_name: str,
     headers: dict,
     output_path: str,
-    expected_size: Optional[int] = None,
+    expected_size: int | None = None,
 ):
     blob_download_url = f"https://{registry}/v2/{image_name}/blobs/{digest}"
     logging.debug(f"Downloading blob: {digest}")

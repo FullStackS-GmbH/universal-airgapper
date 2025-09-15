@@ -1,5 +1,4 @@
 import logging
-from typing import List, Union
 
 from models.config.config_git_repo import ConfigGitRepo
 from models.config.config_helm_chart import ConfigHelmChart
@@ -9,8 +8,7 @@ from models.resources.image import Image
 
 
 class SyncResources:
-    """
-    Class to manage synchronization of different resource types.
+    """Class to manage synchronization of different resource types.
 
     This class is designed to handle the synchronization of various resource
     types, including Helm charts, container images, and Git repositories.
@@ -33,10 +31,10 @@ class SyncResources:
         Exception: Raised in the event of an unrecognized resource type.
     """
 
-    def __init__(self, resources: List[Union[ConfigHelmChart, ConfigImage, ConfigGitRepo]]):
-        self.images: List[Image] = []
-        self.charts: List[ConfigHelmChart] = []
-        self.repos: List[GitRepo] = []
+    def __init__(self, resources: list[ConfigHelmChart | ConfigImage | ConfigGitRepo]):
+        self.images: list[Image] = []
+        self.charts: list[ConfigHelmChart] = []
+        self.repos: list[GitRepo] = []
 
         for res in resources:
             match res:
@@ -70,9 +68,8 @@ class SyncResources:
         else:
             self.repos.append(GitRepo(repo))
 
-    def __has_overlap(self, resource: Union[ConfigHelmChart, ConfigImage, ConfigGitRepo]):
-        """
-        Determines if there is an overlap between the given resource and the existing
+    def __has_overlap(self, resource: ConfigHelmChart | ConfigImage | ConfigGitRepo):
+        """Determines if there is an overlap between the given resource and the existing
         resources in the current object. Compares the resource's source properties
         with the sources of already stored resources of the same type.
 

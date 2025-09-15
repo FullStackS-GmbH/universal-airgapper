@@ -1,12 +1,12 @@
-from typing import Optional, Tuple
+from http import HTTPStatus
 
 import requests
 from requests import RequestException
 
 
-def parse_docker_image(image_str: str) -> Tuple[str, str, str]:
-    """
-    Parses a Docker image string into (registry, image, tag).
+def parse_docker_image(image_str: str) -> tuple[str, str, str]:
+    """Parses a Docker image string into (registry, image, tag).
+
     Example inputs:
       - 'ubuntu'
       - 'ubuntu:20.04'
@@ -38,11 +38,10 @@ def parse_docker_image(image_str: str) -> Tuple[str, str, str]:
 
 def get_registry_token(
     image: str,
-    username: Optional[str] = None,
-    password: Optional[str] = None,
+    username: str | None = None,
+    password: str | None = None,
 ) -> str:
-    """
-    Gets a registry token for Docker image authentication.
+    """Gets a registry token for Docker image authentication.
 
     This function triggers an authentication process with a Docker registry
     to retrieve an authentication token required for accessing the registry.
@@ -77,9 +76,9 @@ def get_registry_token(
         )
     }
     response = requests.get(test_url, headers=headers, timeout=5)
-    if response.status_code == 200:
+    if response.status_code == HTTPStatus.OK:
         return ""
-    if response.status_code != 401:
+    if response.status_code != HTTPStatus.UNAUTHORIZED:
         raise RequestException(
             f"Expected 401 response, got {response.status_code}: {response.text}"
         )

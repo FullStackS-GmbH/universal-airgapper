@@ -3,8 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class ScannerResult:
-    """
-    Represents the result of a scanning operation.
+    """Represents the result of a scanning operation.
 
     This class is used to encapsulate the results of a scanning operation, including
     the overall status, an optional message, and the count of identified issues

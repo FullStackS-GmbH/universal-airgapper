@@ -1,5 +1,4 @@
 import logging
-from typing import List, Union
 
 from models.config.config_scanner_cnspec import ConfigCnspecScanner
 from models.config.config_scanner_neuvector import ConfigNeuvectorScanner
@@ -12,8 +11,7 @@ from models.scanner.scanner_snyk import ScannerSnyk
 
 
 class Scanners:
-    """
-    Represents a collection of scanners and provides utilities to manage them.
+    """Represents a collection of scanners and provides utilities to manage them.
 
     The Scanners class encapsulates a list of scanner instances, allowing for the
     addition and retrieval of scanners. It supports the integration of specific
@@ -21,18 +19,17 @@ class Scanners:
     where multiple scanners need to be managed effectively as a group.
     """
 
-    def __init__(self, scanners: List[Scanner]):
+    def __init__(self, scanners: list[Scanner]):
         self.scanners = scanners
 
     # TODO: check for duplicate scanners
 
     def add_scanner(
         self,
-        scanner: Union[ConfigNeuvectorScanner, ConfigSnykScanner, ConfigCnspecScanner],
+        scanner: ConfigNeuvectorScanner | ConfigSnykScanner | ConfigCnspecScanner,
         creds: CredsScanner,
     ):
-        """
-        Adds a new scanner to the list of scanners. The method determines the type
+        """Adds a new scanner to the list of scanners. The method determines the type
         of the scanner based on pattern matching and appends a suitable instance
         to the `scanners` list. This method primarily supports scanners of type
         `ConfigNeuvectorScanner`.
@@ -53,8 +50,7 @@ class Scanners:
                 self.scanners.append(ScannerCnspec(credentials=creds, config=scanner))
 
     def get_scanner(self, name: str):
-        """
-        Gets a scanner object with the specified name from the list of scanners.
+        """Gets a scanner object with the specified name from the list of scanners.
 
         This method searches through the list of scanner objects and retrieves the
         scanner whose name matches the specified name. If no scanner is found with

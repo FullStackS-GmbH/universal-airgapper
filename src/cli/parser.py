@@ -2,8 +2,7 @@ import configargparse
 
 
 def create_parser():
-    """
-    Creates and configures an `ArgumentParser` for handling command-line arguments.
+    """Creates and configures an `ArgumentParser` for handling command-line arguments.
     This parser is specifically designed for the tool responsible for syncing Docker
     images, Helm charts, and Git repositories. It supports specifying configuration
     and credential files, as well as enabling debug logging. The parser includes
@@ -35,8 +34,7 @@ def create_parser():
 
 
 def validate_arguments(args):
-    """
-    Validates the provided command-line arguments to ensure that exactly one of the mutually
+    """Validates the provided command-line arguments to ensure that exactly one of the mutually
     exclusive argument pairs is supplied. This function checks for the presence of either
     credentials or configuration files/folders but not both at the same time.
 

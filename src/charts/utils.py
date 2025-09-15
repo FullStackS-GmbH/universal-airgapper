@@ -2,7 +2,7 @@ import logging
 import os
 import tarfile
 import tempfile
-from typing import Dict
+from http import HTTPStatus
 
 import requests
 import yaml
@@ -13,9 +13,8 @@ from models.rc import RC
 from models.resources.helm import HelmChart
 
 
-def extract_chart_info(chart_path: str) -> Dict[str, str]:
-    """
-    Extract Helm chart information from a tar.gz file.
+def extract_chart_info(chart_path: str) -> dict[str, str]:
+    """Extract Helm chart information from a tar.gz file.
 
     This function takes the file path of a Helm chart archive in tar.gz format, reads
     the Chart.yaml file inside it, and extracts the name and version of the chart. If
@@ -38,7 +37,7 @@ def extract_chart_info(chart_path: str) -> Dict[str, str]:
                 if member.name.endswith("Chart.yaml"):
                     tar.extract(member, temp_dir)
                     chart_yaml_path = os.path.join(temp_dir, member.name)
-                    with open(chart_yaml_path, "r", encoding="utf-8") as f:
+                    with open(chart_yaml_path, encoding="utf-8") as f:
                         chart_yaml = yaml.safe_load(f)
                     return {
                         "name": chart_yaml["name"],
@@ -48,8 +47,7 @@ def extract_chart_info(chart_path: str) -> Dict[str, str]:
 
 
 def get_helm_repo_hostname(repo_url: str) -> str:
-    """
-    Extracts and returns the hostname from a given Helm repository URL.
+    """Extracts and returns the hostname from a given Helm repository URL.
 
     This function takes a Helm repository URL as input and processes it to
     return only the hostname by removing the protocol, any paths, and the port
@@ -77,8 +75,7 @@ def get_helm_repo_hostname(repo_url: str) -> str:
 
 
 def is_oci_registry(repo_url: str, headers: dict) -> bool:
-    """
-    Determine if a given repository URL corresponds to an OCI registry.
+    """Determine if a given repository URL corresponds to an OCI registry.
 
     This function checks if the provided repository URL is either an OCI registry or a
     legacy Helm registry. It performs a request to the OCI registry endpoint and also
@@ -99,7 +96,7 @@ def is_oci_registry(repo_url: str, headers: dict) -> bool:
     try:
         oci_url = f"{repo_url}/v2/"
         response = requests.get(oci_url, headers=headers, timeout=5)
-        if response.status_code in [200, 401]:
+        if response.status_code in [HTTPStatus.OK, HTTPStatus.UNAUTHORIZED]:
             return True  # OCI registry detected
     except requests.exceptions.RequestException:
         pass  # Suppress exceptions for this check
@@ -108,7 +105,7 @@ def is_oci_registry(repo_url: str, headers: dict) -> bool:
     try:
         helm_index_url = f"{repo_url}/index.yaml"
         response = requests.head(helm_index_url, headers=headers, timeout=5)
-        if response.status_code == 200:
+        if response.status_code == HTTPStatus.OK:
             return False  # Legacy Helm registry detected
     except requests.exceptions.RequestException:
         pass  # Suppress exceptions for this check
@@ -118,8 +115,7 @@ def is_oci_registry(repo_url: str, headers: dict) -> bool:
 
 
 def get_auth_headers(creds: Creds, registry: str) -> dict:
-    """
-    Gets the authentication headers required for accessing a given registry and repository.
+    """Gets the authentication headers required for accessing a given registry and repository.
 
     This function retrieves the credentials associated with a given registry from the `Creds`
     object, and uses them to generate the appropriate HTTP headers for authentication. If
@@ -154,10 +150,9 @@ def get_auth_headers(creds: Creds, registry: str) -> dict:
 
 def oci_chart_exists(
     chart: HelmChart,
-    headers: Dict[str, str],
+    headers: dict[str, str],
 ) -> RC:
-    """
-    Checks if an OCI (Open Container Initiative) Helm chart exists in a target registry.
+    """Checks if an OCI (Open Container Initiative) Helm chart exists in a target registry.
 
     This function verifies whether a specified Helm chart exists by querying the target
     OCI-compliant registry. The function constructs the manifest URL for the chart by
@@ -205,11 +200,11 @@ def oci_chart_exists(
         response = requests.get(manifest_url, headers=oci_headers, timeout=10)
 
         # A 200 OK response means the chart exists
-        if response.status_code == 200:
+        if response.status_code == HTTPStatus.OK:
             return RC(ok=True, entity=response)
 
         # 404 Not Found indicates the chart does not exist
-        if response.status_code == 404:
+        if response.status_code == HTTPStatus.NOT_FOUND:
             return RC(ok=False, entity=response)
 
         # Raise an exception for other error codes
@@ -217,7 +212,7 @@ def oci_chart_exists(
 
     except requests.RequestException as e:
         msg = f"Error checking chart existence: {e}"
-        logging.error(msg)
+        logging.exception(msg)
         return RC(ok=False, err=True, type="helm", entity=requests, msg=msg)
 
     return RC(ok=False, type="helm", entity=response)
