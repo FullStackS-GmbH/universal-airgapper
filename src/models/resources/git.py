@@ -66,7 +66,8 @@ class GitRepo:
             # SSH format like git@github.com:repo.git
             if "@" in repo_url and ":" in repo_url:
                 return repo_url.split("@")[-1].split(":")[0]
-            return ""
         except Exception as e:
             print(f"Error parsing URL: {e}")
+            return ""
+        else:
             return ""
