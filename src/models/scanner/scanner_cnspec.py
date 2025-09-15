@@ -60,7 +60,7 @@ class ScannerCnspec(Scanner):
             result = subprocess.run(
                 " ".join(
                     [
-                        "cnspec",
+                        "/usr/local/bin/cnspec",
                         "vuln",
                         "docker",
                         f"{image.source}:{tag}",
@@ -72,7 +72,7 @@ class ScannerCnspec(Scanner):
                 text=True,
                 check=False,
                 timeout=600,
-                shell=True,
+                shell=False,
             )
             if result.returncode != 0:
                 return ScannerResult(

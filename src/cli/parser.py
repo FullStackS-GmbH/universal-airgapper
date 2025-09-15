@@ -1,3 +1,5 @@
+import argparse
+
 import configargparse
 
 
@@ -33,26 +35,26 @@ def create_parser():
     return parser
 
 
-def validate_arguments(args):
-    """Validates the provided command-line arguments to ensure that exactly one of the mutually
-    exclusive argument pairs is supplied. This function checks for the presence of either
-    credentials or configuration files/folders but not both at the same time.
+def validate_arguments(args: argparse.Namespace, parser: argparse.ArgumentParser) -> bool:
+    """Validates the provided command-line arguments to ensure exactly one option is specified
+    between mutually exclusive pairs (--credentials-file, --credentials-folder) and
+    (--config-file, --config-folder).
 
     Args:
-        args (argparse.Namespace): Parsed command-line arguments holding values for
-        credentials_file, credentials_folder, config_file, config_folder.
+        args (argparse.Namespace): The parsed command-line arguments.
+        parser (argparse.ArgumentParser): The argument parser used for printing help messages.
 
-    Raises:
-        ValueError: If both or none of the mutually exclusive arguments
-        (--credentials-file and --credentials-folder) are provided.
-        ValueError: If both or none of the mutually exclusive arguments
-        (--config-file and --config-folder) are provided.
+    Returns:
+        bool: True if the arguments are valid, False otherwise.
     """
     # Ensure one (and only one) of --credentials-file or --credentials-folder is provided
     if not bool(args.credentials_file) ^ bool(args.credentials_folder):
-        raise ValueError(
-            "You must provide exactly one of --credentials-file or --credentials-folder."
-        )
+        print("You must provide exactly one of --credentials-file or --credentials-folder.")
+        parser.print_help()
+        return False
     # Ensure one (and only one) of --config-file or --config-folder is provided
     if not bool(args.config_file) ^ bool(args.config_folder):
-        raise ValueError("You must provide exactly one of --config-file or --config-folder.")
+        print("You must provide exactly one of --config-file or --config-folder.")
+        parser.print_help()
+        return False
+    return True
