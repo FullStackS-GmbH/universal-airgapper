@@ -1,5 +1,5 @@
 {
-  description = "FullStackS Universal Airgapper dev environment";
+  description = "FULLSTACKS Universal Airgapper Dev Env";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
