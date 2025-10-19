@@ -77,7 +77,7 @@ def main():
         if not rc.ok:
             sys.exit(1)
     except Exception:
-        logging.exception("Global Error")
+        logging.exception("Global Error!")
         sys.exit(1)
 
 
