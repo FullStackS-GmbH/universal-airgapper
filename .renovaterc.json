@@ -4,7 +4,8 @@
     "config:recommended",
     ":semanticCommits",
     ":semanticCommitTypeAll(fix)",
-    ":semanticCommitScope(deps)"
+    ":semanticCommitScope(deps)",
+    ":disableDependencyDashboard"
   ],
   "labels": [
     "dependencies"
