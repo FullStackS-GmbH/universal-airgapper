@@ -72,7 +72,7 @@ def load_config_folder(config_folder: str) -> ConfigFile:
                     local_config_file = ConfigFile(**d_local_config)
                     tmp_config["scanners"].extend(local_config_file.scanners)
                     tmp_config["resources"].extend(local_config_file.resources)
-            except Exception as e:
+            except Exception:
                 logging.exception(f"Error loading config file {filename}")
-                raise e
+                raise
     return ConfigFile(**tmp_config)

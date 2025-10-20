@@ -95,7 +95,7 @@ def _pull_traditional_chart(
     if chart_path not in index["entries"]:
         raise ValueError(f"Chart {chart_path} not found in repository")
 
-    # Find specific version
+    # Find a specific version
     chart_entry = None
     for entry in index["entries"][chart_path]:
         if entry["version"] == version:

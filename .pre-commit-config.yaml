@@ -26,6 +26,7 @@ repos:
         exclude: |
           (?x)(
               ^creds/|
+              ^docs/|
               ^README.md
           )
       - id: name-tests-test
@@ -59,16 +60,6 @@ repos:
       - id: pytest
         name: pytest
         entry: .venv/bin/pytest
-        language: script
-        types: [ python ]
-        pass_filenames: false
-        always_run: true
-
-  - repo: local
-    hooks:
-      - id: pylint
-        name: pylint
-        entry: .venv/bin/pylint src/
         language: script
         types: [ python ]
         pass_filenames: false

@@ -80,12 +80,12 @@ def get_all_tags_remote(
         tags = [tag.name for tag in repo.tags]
 
         logging.debug(f"found tags: {tags!s}")
+    except GitCommandError:
+        logging.exception("Git error")
+    except Exception:
+        logging.exception("An error occurred")
+    else:
         return tags
-
-    except GitCommandError as e:
-        logging.exception(f"Git error: {e}")
-    except Exception as e:
-        logging.exception(f"An error occurred: {e}")
     finally:
         # Clean up the temporary directory
         logging.debug(f"cleaning up temporary directory: {target_path}")
@@ -154,7 +154,7 @@ def get_matching_refs(pattern: str, git_repo: GitRepo, creds: Creds) -> list[str
             if re.match(pattern, ref):
                 matching_refs.append(ref)
                 logging.info(f"matched ref [{pattern}]: {ref}")
-        except Exception as e:
-            logging.exception(f"Error matching pattern: {e}")
+        except Exception:
+            logging.exception("Error matching pattern")
     logging.info(f"pattern matched refs: {matching_refs!s}")
     return matching_refs
