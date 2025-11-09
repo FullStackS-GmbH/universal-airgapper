@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from models.config.config_helm_chart import ConfigHelmChart
+from cnairgapper.models.config.config_helm_chart import ConfigHelmChart
 
 
 def test_config_helm_chart_valid_data():

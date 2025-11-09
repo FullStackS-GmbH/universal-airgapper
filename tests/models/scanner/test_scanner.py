@@ -1,6 +1,6 @@
-from models.config.config_scanner import ConfigScanner
-from models.creds.creds_scanner import CredsScanner
-from models.scanner.scanner import Scanner
+from cnairgapper.models.config.config_scanner import ConfigScanner
+from cnairgapper.models.creds.creds_scanner import CredsScanner
+from cnairgapper.models.scanner.scanner import Scanner
 
 
 def test_scanner_initialization():

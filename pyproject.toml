@@ -1,8 +1,10 @@
 [project]
-name = "universal-airgapper"
+name = "cnairgapper"
 version = "0.0.1"
-description = "A universal airgapper tool for syncing resources"
-authors = [{ name = "Daniel Drack", email = "daniel.drack@fullstacks.eu" }]
+description = "A cloud-native airgapper tool for syncing resources"
+authors = [
+    { name = "Daniel Drack", email = "daniel.drack@fullstacks.eu" }
+]
 requires-python = ">=3.10"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -27,6 +29,14 @@ dependencies = [
     "annotated-types==0.7.0",
 ]
 
+# This creates a console command named `hello`
+[project.scripts]
+airgapper = "cnairgapper.main:main"
+
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
 [dependency-groups]
 dev = [
     "pytest==8.3.4",
@@ -34,6 +44,7 @@ dev = [
     "pylint==3.3.3",
     "ruff>=0.12.12",
     "pre-commit>=4.3.0",
+    "hatchling>=1.27.0"
 ]
 
 [tool.ruff]
@@ -106,11 +117,13 @@ classmethod-decorators = []
 python_version = "3.12"
 strict = true
 
-
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "--strict-markers"
-pythonpath = "src"
+pythonpath = "src/"
 testpaths = [
     "tests"
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cnairgapper"]  # import package (underscores)

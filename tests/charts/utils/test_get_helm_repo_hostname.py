@@ -1,4 +1,4 @@
-from charts.utils import get_helm_repo_hostname
+from cnairgapper.charts.utils import get_helm_repo_hostname
 
 
 def test_get_helm_repo_hostname_with_https_url():

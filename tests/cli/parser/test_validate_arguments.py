@@ -1,6 +1,6 @@
 import pytest
 
-from cli.parser import validate_arguments
+from cnairgapper.cli.parser import validate_arguments
 
 
 class MockArgs:
