@@ -1,9 +1,9 @@
-from models.creds.creds import Creds
-from models.creds.creds_file import CredsFile
-from models.creds.creds_git_repo import CredsGitRepo
-from models.creds.creds_helm_registry import CredsHelmRegistry
-from models.creds.creds_image_registry import CredsImageRegistry
-from models.creds.creds_scanner import CredsScanner
+from cnairgapper.models.creds.creds import Creds
+from cnairgapper.models.creds.creds_file import CredsFile
+from cnairgapper.models.creds.creds_git_repo import CredsGitRepo
+from cnairgapper.models.creds.creds_helm_registry import CredsHelmRegistry
+from cnairgapper.models.creds.creds_image_registry import CredsImageRegistry
+from cnairgapper.models.creds.creds_scanner import CredsScanner
 
 
 def test_creds_initialization_with_empty_creds_file():

@@ -1,4 +1,4 @@
-from models.scanner.scanner_result import ScannerResult
+from cnairgapper.models.scanner.scanner_result import ScannerResult
 
 
 def test_scanner_result_default_initialization():

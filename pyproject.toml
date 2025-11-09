@@ -1,8 +1,10 @@
 [project]
-name = "universal-airgapper"
+name = "cnairgapper"
 version = "0.0.1"
-description = "A universal airgapper tool for syncing resources"
-authors = [{ name = "Daniel Drack", email = "daniel.drack@fullstacks.eu" }]
+description = "A cloud-native airgapper tool for syncing resources"
+authors = [
+    { name = "Daniel Drack", email = "daniel.drack@fullstacks.eu" }
+]
 requires-python = ">=3.10"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -27,6 +29,14 @@ dependencies = [
     "annotated-types==0.7.0",
 ]
 
+# This creates a console command named `hello`
+[project.scripts]
+airgapper = "cnairgapper.main:main"
+
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
 [dependency-groups]
 dev = [
     "pytest==8.3.4",
@@ -34,6 +44,7 @@ dev = [
     "pylint==3.3.3",
     "ruff>=0.12.12",
     "pre-commit>=4.3.0",
+    "hatchling>=1.27.0"
 ]
 
 [tool.ruff]
@@ -67,6 +78,14 @@ ignore = [
     "D104", # Missing docstring in public package
     "D107", # Missing docstring in `__init__`
     "D205", # 1 blank line required between summary line and description
+    "TRY003", # Avoid specifying long messages outside the exception class
+    "PLR0913", # Too many arguments in function definition (>5)
+    "C901", # is too complex (> 10)
+    "PLR0912", # too many brancher (>12)
+    "PLR2004", #  Magic value used in comparison, consider replacing `x` with a constant variable
+    # "TRY401", #
+    "S108", #  Probable insecure usage of temporary file or directory
+    "S603", # `subprocess` call: check for execution of untrusted input
 ]
 
 [tool.ruff.lint.isort]
@@ -98,11 +117,13 @@ classmethod-decorators = []
 python_version = "3.12"
 strict = true
 
-
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "--strict-markers"
-pythonpath = "src"
+pythonpath = "src/"
 testpaths = [
     "tests"
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cnairgapper"]  # import package (underscores)

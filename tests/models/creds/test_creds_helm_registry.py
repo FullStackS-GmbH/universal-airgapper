@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from models.creds.creds_helm_registry import CredsHelmRegistry
+from cnairgapper.models.creds.creds_helm_registry import CredsHelmRegistry
 
 
 def test_creds_helm_registry_initialization():

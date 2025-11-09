@@ -1,4 +1,4 @@
-from images.utils import image_to_folder_name
+from cnairgapper.images.utils import image_to_folder_name
 
 
 def test_image_to_folder_name_with_tag():

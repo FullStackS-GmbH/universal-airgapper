@@ -1,8 +1,8 @@
-from models.config.config_file import ConfigFile
-from models.config.config_git_repo import ConfigGitRepo
-from models.config.config_helm_chart import ConfigHelmChart
-from models.config.config_image import ConfigImage
-from models.config.config_scanner_neuvector import ConfigNeuvectorScanner
+from cnairgapper.models.config.config_file import ConfigFile
+from cnairgapper.models.config.config_git_repo import ConfigGitRepo
+from cnairgapper.models.config.config_helm_chart import ConfigHelmChart
+from cnairgapper.models.config.config_image import ConfigImage
+from cnairgapper.models.config.config_scanner_neuvector import ConfigNeuvectorScanner
 
 
 def test_config_file_empty_resources_and_scanners_default():

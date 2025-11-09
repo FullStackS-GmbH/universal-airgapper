@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from models.config.config_git_repo import ConfigGitRepo
+from cnairgapper.models.config.config_git_repo import ConfigGitRepo
 
 
 def test_config_git_repo_valid_data():

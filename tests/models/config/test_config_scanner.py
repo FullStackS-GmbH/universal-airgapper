@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from models.config.config_scanner import ConfigScanner
+from cnairgapper.models.config.config_scanner import ConfigScanner
 
 
 def test_config_scanner_valid_instance():

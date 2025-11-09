@@ -1,4 +1,4 @@
-from models.rc import RC
+from cnairgapper.models.rc import RC
 
 
 def test_rc_default_initialization():

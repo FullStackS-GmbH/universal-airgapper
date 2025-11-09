@@ -1,10 +1,10 @@
 import pytest
 
-from models.config.config_image import ConfigImage
-from models.config.config_scanner_neuvector import ConfigNeuvectorScanner
-from models.creds.creds_scanner import CredsScanner
-from models.resources.image import Image
-from models.scanner.scanner_neuvector import ScannerNeuVector
+from cnairgapper.models.config.config_image import ConfigImage
+from cnairgapper.models.config.config_scanner_neuvector import ConfigNeuvectorScanner
+from cnairgapper.models.creds.creds_scanner import CredsScanner
+from cnairgapper.models.resources.image import Image
+from cnairgapper.models.scanner.scanner_neuvector import ScannerNeuVector
 
 
 @pytest.fixture

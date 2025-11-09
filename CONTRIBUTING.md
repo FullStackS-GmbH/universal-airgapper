@@ -29,24 +29,24 @@ We aim to foster an inclusive and welcoming community.
 
 ### Prerequisites
 
-- Python 3.10 or higher
+- Python 3.12 or higher
 - Docker (for testing container functionality)
 - Git
+- [uv](https://github.com/astral-sh/uv) - A fast Python package installer and resolver
+
 
 ### Setting Up Your Environment
 
 1. Create a virtual environment:
 
 ``` bash
-   python -m venv .venv
-   source .venv/bin/activate
+   uv venv
 ```
 
 1. Install development dependencies:
 
 ``` bash
-   pip install -r requirements.txt
-   pip install -r requirements-dev.txt
+   uv sync --frozen
 ```
 
 ## Coding Standards

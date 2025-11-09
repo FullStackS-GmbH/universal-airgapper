@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from models.creds.creds_git_repo import CredsGitRepo
+from cnairgapper.models.creds.creds_git_repo import CredsGitRepo
 
 
 def test_creds_git_repo_initialization_with_minimal_data():

@@ -1,5 +1,5 @@
-from models.config.config_image import ConfigImage
-from models.resources.image import Image
+from cnairgapper.models.config.config_image import ConfigImage
+from cnairgapper.models.resources.image import Image
 
 
 def test_image_initialization():

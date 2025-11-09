@@ -1,6 +1,6 @@
 import pytest
 
-from cli.parser import create_parser
+from cnairgapper.cli.parser import create_parser
 
 
 def test_create_parser_missing_required_argument():

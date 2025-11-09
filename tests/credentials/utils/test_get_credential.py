@@ -1,4 +1,4 @@
-from credentials.utils import get_credential
+from cnairgapper.credentials.utils import get_credential
 
 
 def test_get_credential_valid_path():

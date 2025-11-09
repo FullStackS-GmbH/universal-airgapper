@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from models.creds.creds_scanner import CredsScanner
+from cnairgapper.models.creds.creds_scanner import CredsScanner
 
 
 def test_creds_scanner_initialization():
