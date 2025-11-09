@@ -43,13 +43,13 @@ jobs:
       - name: Build & Push Scanner specific Docker image
         run: |
           docker build \
-            -f docker/Dockerfile_cnspec \
+            -f docker/cnspec.Dockerfile \
             -t ghcr.io/${{ steps.repo.outputs.repo }}:${GITHUB_REF_NAME}-cnspec \
             -t ghcr.io/${{ steps.repo.outputs.repo }}:latest-cnspec \
             .
 
           docker build \
-            -f docker/Dockerfile_snyk \
+            -f docker/snyk.Dockerfile \
             -t ghcr.io/${{ steps.repo.outputs.repo }}:${GITHUB_REF_NAME}-snyk \
             -t ghcr.io/${{ steps.repo.outputs.repo }}:latest-snyk \
             .

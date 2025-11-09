@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from models.creds.creds_image_registry import CredsImageRegistry
+from cnairgapper.models.creds.creds_image_registry import CredsImageRegistry
 
 
 def test_creds_image_registry_initialization():

@@ -1,4 +1,4 @@
-from models.config.config_image import ConfigImage
+from cnairgapper.models.config.config_image import ConfigImage
 
 
 def test_config_image_valid_data():

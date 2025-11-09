@@ -1,5 +1,5 @@
-from models.config.config_git_repo import ConfigGitRepo
-from models.resources.git import GitRepo
+from cnairgapper.models.config.config_git_repo import ConfigGitRepo
+from cnairgapper.models.resources.git import GitRepo
 
 
 def test_gitrepo_initialization():

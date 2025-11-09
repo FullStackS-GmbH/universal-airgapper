@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from models.config.config_scanner_neuvector import ConfigNeuvectorScanner
+from cnairgapper.models.config.config_scanner_neuvector import ConfigNeuvectorScanner
 
 
 def test_config_neuvector_scanner_init():
