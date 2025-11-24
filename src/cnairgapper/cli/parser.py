@@ -48,13 +48,7 @@ def _get_version() -> str:
         # must match [project].name in pyproject.toml
         return pkg_version("cnairgapper")
     except PackageNotFoundError:
-        # fallback for dev/editable installs
-        try:
-            from .._version import __version__  # noqa: PLC0415
-
-            return __version__  # noqa: TRY300
-        except Exception:
-            return "0.0.0-dev"
+        return "0.0.0-dev"
 
 
 def validate_arguments(args: argparse.Namespace, parser: argparse.ArgumentParser) -> bool:
