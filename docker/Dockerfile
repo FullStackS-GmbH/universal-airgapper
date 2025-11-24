@@ -3,10 +3,11 @@ ARG BASE_IMAGE_REPOSITORY="python"
 ARG BASE_IMAGE_TAG="3.12-alpine3.22"
 FROM ${BASE_IMAGE_REGISTRY}/${BASE_IMAGE_REPOSITORY}:${BASE_IMAGE_TAG}
 
-ARG APP_COMMIT_SHA=""
-ARG APP_VERSION=""
+ARG APP_COMMIT_SHA="changeme"
+ARG APP_VERSION="v0.0.1"
 ENV APP_COMMIT_SHA=$APP_COMMIT_SHA
 ENV APP_VERSION=$APP_VERSION
+ENV SETUPTOOLS_SCM_PRETEND_VERSION=$APP_VERSION
 
 # install uv
 COPY --from=docker.io/astral/uv@sha256:e4644cb5bd56fdc2c5ea3ee0525d9d21eed1603bccd6a21f887a938be7e85be1 /uv /uvx /bin/
@@ -25,13 +26,13 @@ USER airgapper
 WORKDIR /home/airgapper
 
 # Copy requirements first to leverage Docker cache
-COPY pyproject.toml uv.lock ./
-
-# Install dependencies
-RUN uv sync --frozen # --no-dev
+COPY pyproject.toml uv.lock LICENSE README.md ./
 
 # Copy all local packages and files
-COPY src/ .
+COPY src/ src/
+
+# Install dependencies
+RUN uv venv && uv sync --frozen
 
 # Specify the command to run the app
-ENTRYPOINT ["uv", "run", "python", "main.py"]
+ENTRYPOINT ["uv", "run", "cnairgapper"]

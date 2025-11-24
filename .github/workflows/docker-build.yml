@@ -34,6 +34,8 @@ jobs:
         run: |
           docker build \
             -f docker/Dockerfile \
+            --build-arg APP_VERSION=${GITHUB_REF_NAME} \
+            --build-arg APP_COMMIT_SHA=${GITHUB_SHA} \
             -t ghcr.io/${{ steps.repo.outputs.repo }}:${GITHUB_REF_NAME} \
             -t ghcr.io/${{ steps.repo.outputs.repo }}:latest \
             .
@@ -43,12 +45,16 @@ jobs:
       - name: Build & Push Scanner specific Docker image
         run: |
           docker build \
+            --build-arg APP_VERSION=${GITHUB_REF_NAME} \
+            --build-arg APP_COMMIT_SHA=${GITHUB_SHA} \
             -f docker/cnspec.Dockerfile \
             -t ghcr.io/${{ steps.repo.outputs.repo }}:${GITHUB_REF_NAME}-cnspec \
             -t ghcr.io/${{ steps.repo.outputs.repo }}:latest-cnspec \
             .
 
           docker build \
+            --build-arg APP_VERSION=${GITHUB_REF_NAME} \
+            --build-arg APP_COMMIT_SHA=${GITHUB_SHA} \
             -f docker/snyk.Dockerfile \
             -t ghcr.io/${{ steps.repo.outputs.repo }}:${GITHUB_REF_NAME}-snyk \
             -t ghcr.io/${{ steps.repo.outputs.repo }}:latest-snyk \

@@ -1,4 +1,6 @@
 import argparse
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as pkg_version
 
 import configargparse
 
@@ -31,8 +33,22 @@ def create_parser():
         "--config-folder", help="Path to a folder containing YAML sync config files"
     )
 
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=_get_version(),
+    )
+
     parser.add_argument("--debug", action="store_true", default=False, help="Enable debug logging")
     return parser
+
+
+def _get_version() -> str:
+    try:
+        # must match [project].name in pyproject.toml
+        return pkg_version("cnairgapper")
+    except PackageNotFoundError:
+        return "0.0.0-dev"
 
 
 def validate_arguments(args: argparse.Namespace, parser: argparse.ArgumentParser) -> bool:
