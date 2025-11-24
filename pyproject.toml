@@ -44,8 +44,8 @@ build-backend = "hatchling.build"
 [tool.hatch.version]
 source = "vcs"
 
-[tool.hatch.build.hooks.vcs]
-version-file = "src/cnairgapper/_version.py"
+# [tool.hatch.build.hooks.vcs]
+# version-file = "src/cnairgapper/_version.py"
 
 [tool.hatch.build.targets.sdist]
 include = ["src", "README.md", "LICENSE", "pyproject.toml"]
