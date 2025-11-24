@@ -1,8 +1,8 @@
-from models.config.config_scanner_neuvector import ConfigNeuvectorScanner
-from models.creds.creds_scanner import CredsScanner
-from models.scanner.scanner import Scanner
-from models.scanner.scanner_neuvector import ScannerNeuVector
-from models.scanner.scanners import Scanners
+from cnairgapper.models.config.config_scanner_neuvector import ConfigNeuvectorScanner
+from cnairgapper.models.creds.creds_scanner import CredsScanner
+from cnairgapper.models.scanner.scanner import Scanner
+from cnairgapper.models.scanner.scanner_neuvector import ScannerNeuVector
+from cnairgapper.models.scanner.scanners import Scanners
 
 
 def test_scanners_initialization_with_empty_list():

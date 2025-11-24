@@ -1,6 +1,6 @@
 import requests
 
-from charts.utils import is_oci_registry
+from cnairgapper.charts.utils import is_oci_registry
 
 
 def test_is_oci_registry_v2_api_200(requests_mock):

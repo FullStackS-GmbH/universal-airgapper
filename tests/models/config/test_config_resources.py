@@ -1,9 +1,9 @@
 import pytest
 
-from models.config.config_git_repo import ConfigGitRepo
-from models.config.config_helm_chart import ConfigHelmChart
-from models.config.config_image import ConfigImage
-from models.config.config_resources import SyncResources
+from cnairgapper.models.config.config_git_repo import ConfigGitRepo
+from cnairgapper.models.config.config_helm_chart import ConfigHelmChart
+from cnairgapper.models.config.config_image import ConfigImage
+from cnairgapper.models.config.config_resources import SyncResources
 
 
 def test_sync_resources_initializes_empty_lists():

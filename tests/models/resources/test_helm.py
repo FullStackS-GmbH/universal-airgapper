@@ -1,5 +1,5 @@
-from models.config.config_helm_chart import ConfigHelmChart
-from models.resources.helm import HelmChart
+from cnairgapper.models.config.config_helm_chart import ConfigHelmChart
+from cnairgapper.models.resources.helm import HelmChart
 
 
 def test_helm_chart_initialization():
