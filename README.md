@@ -22,6 +22,22 @@ A CLI tool for syncing Docker images, Helm charts, and Git repositories across a
 - YAML configuration
 - Flexible credential management
 
+## Installation
+
+Install the CLI from PyPI (built on tagged releases):
+
+```shell
+pipx install cnairgapper
+# or with uvx
+uvx --from cnairgapper airgapper -- --help
+```
+
+Verify the installation:
+
+```shell
+airgapper --help
+```
+
 ## Usage
 
 ```shell
@@ -245,6 +261,12 @@ include:
       credentials-file: ${UNIVERSAL_AIRGAPPER_CREDS}
       debug: '--debug'
 ```
+
+## Releases
+
+- Create a tag following `vX.Y.Z` and push it: `git tag v0.1.0 && git push origin v0.1.0`
+- A GitHub Actions workflow builds the wheel/sdist with hatch and publishes to PyPI.
+- Configure repository secret `PYPI_API_TOKEN` with an API token that has publish rights.
 
 ## Contributing
 
