@@ -1,11 +1,11 @@
 [project]
 name = "cnairgapper"
-version = "0.0.1"
 description = "A cloud-native airgapper tool for syncing resources"
+dynamic = ["version"]
 authors = [
     { name = "Daniel Drack", email = "daniel.drack@fullstacks.eu" }
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 readme = "README.md"
 license = { file = "LICENSE" }
 keywords = [
@@ -19,6 +19,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
+urls = { Homepage = "https://github.com/fullstacks-gmbh/universal-airgapper" }
 dependencies = [
     "requests~=2.32.3",
     "configargparse~=1.7",
@@ -31,11 +32,23 @@ dependencies = [
 
 # This creates a console command named `hello`
 [project.scripts]
-airgapper = "cnairgapper.main:main"
+cnairgapper = "cnairgapper.main:main"
 
 [build-system]
-requires = ["hatchling>=1.27.0"]
+requires = [
+    "hatchling>=1.27.0",
+    "hatch-vcs>=0.4",
+]
 build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/cnairgapper/_version.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "README.md", "LICENSE", "pyproject.toml"]
 
 [dependency-groups]
 dev = [
@@ -44,7 +57,8 @@ dev = [
     "pylint==3.3.3",
     "ruff>=0.12.12",
     "pre-commit>=4.3.0",
-    "hatchling>=1.27.0"
+    "hatchling>=1.27.0",
+    "hatch-vcs>=0.4",
 ]
 
 [tool.ruff]
