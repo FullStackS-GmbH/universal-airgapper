@@ -25,14 +25,12 @@ USER airgapper
 # Set working directory
 WORKDIR /home/airgapper
 
-# Copy requirements first to leverage Docker cache
-COPY pyproject.toml uv.lock LICENSE README.md ./
-
-# Copy all local packages and files
-COPY src/ src/
+# makes heavy use of .dockerignore
+COPY --chown=airgapper:airgapper --chmod=744 . .
 
 # Install dependencies
-RUN uv venv && uv sync --frozen
+RUN uv sync --frozen
 
 # Specify the command to run the app
 ENTRYPOINT ["uv", "run", "cnairgapper"]
+CMD ["--help"]

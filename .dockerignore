@@ -1,3 +1,21 @@
+# custom folders
+
+tests/
+.gitlab-ci.yml
+.pre-commit-config.yaml
+AGENTS.md
+.renovaterc.json
+config.yaml
+flake*
+tmp/
+local/
+.github/
+.direnv/
+.devcontainer/
+k8s/
+docs/
+docker/
+
 ### debugging
 sync_tmp/
 creds/
