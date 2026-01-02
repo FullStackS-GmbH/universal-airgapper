@@ -12,7 +12,7 @@
 - Package builds use Hatch via `uv build` (wheel defined in `pyproject.toml`).
 
 ## Coding Style & Conventions
-- Target Python 3.12+, type-hint everything, and prefer small, single-purpose functions.
+- Target Python 3.14+, type-hint everything, and prefer small, single-purpose functions.
 - Ruff enforces linting; keep lines ≤100 chars and follow Google-style docstrings. Run `uv run ruff check .` before pushing.
 - Mypy is configured in strict mode; ensure new code passes `uv run mypy src` and avoids `Any` unless necessary.
 - Use snake_case for modules, functions, and variables; classes are PascalCase. Keep CLI flags descriptive and match existing `--kebab-case` patterns.

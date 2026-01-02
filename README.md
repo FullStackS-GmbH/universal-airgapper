@@ -4,6 +4,7 @@ A CLI tool for syncing Docker images, Helm charts, and Git repositories across a
 
 - [Features](#features)
 - [Usage](#usage)
+- [Architecture](#architecture)
 - [Credential Management](#credential-management)
 - [Sync Config File](#sync-config-file)
 - [Advanced Usage](#advanced-usage)
@@ -49,6 +50,10 @@ docker run \
   --credentials-folder /mnt/creds/ \
   --config /mnt/config.yaml
 ```
+
+## Architecture
+
+![architecture](assets/architecture.svg)
 
 ## Credential Management
 
@@ -271,3 +276,5 @@ include:
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+- render architecture svg: `drawio -x -f svg -o assets/architecture.svg architecture.drawio`
