@@ -54,7 +54,7 @@ include = ["src", "README.md", "LICENSE", "pyproject.toml"]
 dev = [
     "pytest==8.3.4",
     "requests_mock==1.12.1",
-    "pylint==3.3.3",
+    "pylint==3.3.9",
     "ruff>=0.12.12",
     "pre-commit>=4.3.0",
     "hatchling>=1.27.0",
