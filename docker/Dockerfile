@@ -10,7 +10,7 @@ ENV APP_VERSION=$APP_VERSION
 ENV SETUPTOOLS_SCM_PRETEND_VERSION=$APP_VERSION
 
 # install uv
-COPY --from=docker.io/astral/uv@sha256:e4644cb5bd56fdc2c5ea3ee0525d9d21eed1603bccd6a21f887a938be7e85be1 /uv /uvx /bin/
+COPY --from=docker.io/astral/uv@sha256:816fdce3387ed2142e37d2e56e1b1b97ccc1ea87731ba199dc8a25c04e4997c5 /uv /uvx /bin/
 
 # Install packages and CNSpec
 RUN apk update && \
